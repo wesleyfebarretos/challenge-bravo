@@ -1,0 +1,47 @@
+version: '3.8'
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  app:
+    driver: bridge
+
+services:
+  postgres:
+    container_name: challenge-bravo
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: challenge_bravo
+      PGDATA: /data/postgres
+    volumes:
+       - pgdata:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - app
+    restart: unless-stopped
+
+  app:
+    image: challenge-bravo
+    container_name: app
+    build:
+        context: .
+        target: dev
+    volumes:
+        - type: bind
+          source: .
+          target: /app/
+    init: true
+    depends_on:
+        - postgres
+    # environment:
+    # - DATABASE_URL=postgres://postgres:foobarbaz@db:5432/postgres
+    networks:
+        - app
+    ports:
+        - 8080:8080
+    restart: unless-stopped
