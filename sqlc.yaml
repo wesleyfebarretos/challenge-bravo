@@ -1,10 +1,17 @@
 version: "2"
-sql:
+overrides:
+  go:
+    overrides:
+      - db_type: "serial"
+        engine: "postgresql"
+        go_type:
+          type: "int"
 
+sql:
   - &schema
     engine: "postgresql"
-    schema: "internal/migrations/*"
-    queries: "./internal/infra/repository/queries/user.sql"
+    schema: "internal/migration/*"
+    queries: "./internal/infra/repository/queries/user"
     gen:
       go: &default_configs
         package: "user_connection"
@@ -18,10 +25,10 @@ sql:
         emit_all_enum_values: true
         omit_unused_structs: true
 
-  - <<: *schema
-    queries: "./internal/infra/repository/queries/currency.sql"
-    gen:
-      go:
-        <<: *default_configs
-        package: "currency_connection"
-        out: "./internal/infra/repository/sqlc/currency_connection"
+  # - <<: *schema
+  #   queries: "./internal/infra/repository/queries/currency.sql"
+  #   gen:
+  #     go:
+  #       <<: *default_configs
+  #       package: "currency_connection"
+  #       out: "./internal/infra/repository/sqlc/currency_connection"
