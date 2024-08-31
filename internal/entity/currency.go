@@ -1,17 +1,25 @@
 package entity
 
-import "context"
+import (
+	"context"
+	"time"
+)
 
 type Currency struct {
-	Country         *string
-	Number          *int
-	SearchURL       *string
-	Fic             *bool
-	Code            string
+	CreatedAt       time.Time `json:"created_at,omitempty"`
+	UpdatedAt       time.Time `json:"updated_at,omitempty"`
+	CountryCode     *string   `json:"country_code,omitempty"`
+	Number          *int      `json:"number,omitempty"`
+	SearchURL       *string   `json:"search_url,omitempty"`
+	Fic             *bool     `json:"fic,omitempty"`
+	Country         *string   `json:"country,omitempty"`
 	Name            string
-	RealTimeValue   float64
+	Code            string
 	USDExchangeRate float64
 	ID              int
+	CreatedBy       int
+	UpdatedBy       int
+	RealTimeValue   float64
 }
 
 type CurrencyRepository interface {
