@@ -1,0 +1,28 @@
+package user_repository
+
+import (
+	"context"
+
+	"github.com/wesleyfebarretos/challenge-bravo/internal/entity"
+	"github.com/wesleyfebarretos/challenge-bravo/internal/infra/repository/sqlc/user_connection"
+)
+
+func UpdateMapToDB(u entity.User) user_connection.UpdateParams {
+	return user_connection.UpdateParams{
+		ID:        u.ID,
+		Role:      user_connection.Roles(u.Role),
+		Email:     u.Email,
+		FirstName: u.FirstName,
+		LastName:  u.LastName,
+	}
+}
+
+func (u UserRepository) Update(c context.Context, user entity.User) error {
+	err := u.queries.Update(c, UpdateMapToDB(user))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+

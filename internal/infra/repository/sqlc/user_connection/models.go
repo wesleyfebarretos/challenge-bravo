@@ -7,8 +7,9 @@ package user_connection
 import (
 	"database/sql/driver"
 	"fmt"
+	"time"
 
-	"github.com/jackc/pgx/v5/pgtype"
+	time "time"
 )
 
 type Roles string
@@ -70,13 +71,13 @@ func AllRolesValues() []Roles {
 }
 
 type User struct {
-	ID        int              `json:"id"`
-	FirstName string           `json:"first_name"`
-	LastName  string           `json:"last_name"`
-	Email     string           `json:"email"`
-	Role      Roles            `json:"role"`
-	Active    bool             `json:"active"`
-	Password  string           `json:"password"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
-	UpdatedAt pgtype.Timestamp `json:"updated_at"`
+	ID        int       `json:"id"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Email     string    `json:"email"`
+	Role      Roles     `json:"role"`
+	Active    bool      `json:"active"`
+	Password  string    `json:"password"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
