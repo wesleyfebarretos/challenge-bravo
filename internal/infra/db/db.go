@@ -3,17 +3,25 @@ package db
 import (
 	"context"
 	"fmt"
-	"log"
 	"sync"
 
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/config"
 )
 
 const DRIVER = "postgres"
 
+type DBConn interface {
+	Exec(context.Context, string, ...any) (pgconn.CommandTag, error)
+	Query(context.Context, string, ...any) (pgx.Rows, error)
+	QueryRow(context.Context, string, ...any) pgx.Row
+	Close()
+}
+
 var (
-	Conn     *pgxpool.Pool
+	Conn     DBConn
 	initOnce sync.Once
 )
 
@@ -60,43 +68,3 @@ func Init() error {
 	return nil
 }
 
-func TruncateAll() {
-	ctx := context.Background()
-	rows, err := Conn.Query(ctx, `
-        SELECT table_name, table_schema
-        FROM information_schema.tables
-        WHERE table_schema IN('public') AND table_type = 'BASE TABLE'
-    `)
-	if err != nil {
-		log.Fatalf("Failed to fetch table names: %v\n", err)
-	}
-
-	// Truncate each table
-	for rows.Next() {
-		var tableName string
-		var tableSchema string
-		if err := rows.Scan(&tableName, &tableSchema); err != nil {
-			log.Fatalf("Failed to scan table name: %v\n", err)
-		}
-
-		var table string
-
-		if tableSchema != "public" {
-			table = fmt.Sprintf("%s.%s", tableSchema, tableName)
-		} else {
-			table = tableName
-		}
-
-		_, err := Conn.Exec(ctx, fmt.Sprintf("TRUNCATE TABLE %s RESTART IDENTITY CASCADE", table))
-		if err != nil {
-			log.Fatalf("Failed to truncate table %s: %v\n", tableName, err)
-		}
-		// fmt.Printf("Truncated table: %s\n", tableName)
-	}
-
-	if err := rows.Err(); err != nil {
-		log.Fatalf("Error iterating rows: %v\n", err)
-	}
-
-	// fmt.Println("All tables truncated successfully.")
-}
