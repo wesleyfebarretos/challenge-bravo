@@ -6,7 +6,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/config"
 )
 
@@ -18,14 +18,14 @@ var (
 )
 
 func openConnection(connector string) error {
-	config, err := pgxpool.ParseConfig(connector)
+	_config, err := pgxpool.ParseConfig(connector)
 	if err != nil {
 		return err
 	}
 
-	config.MaxConns = 10
+	_config.MaxConns = int32(config.Envs.DB.PoolMaxConn)
 
-	insideConn, err := pgxpool.ConnectConfig(context.Background(), config)
+	insideConn, err := pgxpool.NewWithConfig(context.Background(), _config)
 	if err != nil {
 		return err
 	}

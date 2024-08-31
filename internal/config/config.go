@@ -8,12 +8,13 @@ import (
 )
 
 type DBConfig struct {
-	User     string
-	Port     string
-	Password string
-	Address  string
-	Host     string
-	Name     string
+	User        string
+	Port        string
+	Password    string
+	Address     string
+	Host        string
+	Name        string
+	PoolMaxConn int
 }
 
 type Config struct {
@@ -35,12 +36,13 @@ func Init() {
 			AppEnv:   getEnv("APP_ENV", "development"),
 			Port:     getEnv("PORT", "8080"),
 			DB: DBConfig{
-				User:     getEnv("DB_USER", "root"),
-				Password: getEnv("DB_PASSWORD", "root"),
-				Port:     getEnv("DB_PORT", "5432"),
-				Name:     getEnv("DB_NAME", "challenge_bravo"),
-				Host:     getEnv("DB_HOST", "challenge-bravo"),
-				Address:  fmt.Sprintf("%s:%s", getEnv("DB_HOST", "127.0.0.1"), getEnv("DB_PORT", "5432")),
+				User:        getEnv("DB_USER", "root"),
+				Password:    getEnv("DB_PASSWORD", "root"),
+				Port:        getEnv("DB_PORT", "5432"),
+				Name:        getEnv("DB_NAME", "challenge_bravo"),
+				Host:        getEnv("DB_HOST", "challenge-bravo"),
+				Address:     fmt.Sprintf("%s:%s", getEnv("DB_HOST", "127.0.0.1"), getEnv("DB_PORT", "5432")),
+				PoolMaxConn: getEnvAsInt("DB_POOL_MAX_CONNECTION", 10),
 			},
 		}
 	})
