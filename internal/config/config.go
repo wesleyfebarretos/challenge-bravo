@@ -14,6 +14,7 @@ type DBConfig struct {
 	Address     string
 	Host        string
 	Name        string
+	Driver      string
 	PoolMaxConn int
 }
 
@@ -36,6 +37,7 @@ func Init() {
 			AppEnv:   getEnv("APP_ENV", "development"),
 			Port:     getEnv("PORT", "8080"),
 			DB: DBConfig{
+				Driver:      getEnv("DB_DRIVER", "postgres"),
 				User:        getEnv("DB_USER", "root"),
 				Password:    getEnv("DB_PASSWORD", "root"),
 				Port:        getEnv("DB_PORT", "5432"),

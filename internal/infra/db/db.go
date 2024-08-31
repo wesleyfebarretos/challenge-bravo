@@ -11,8 +11,6 @@ import (
 	"github.com/wesleyfebarretos/challenge-bravo/internal/config"
 )
 
-const DRIVER = "postgres"
-
 type DBConn interface {
 	Exec(context.Context, string, ...any) (pgconn.CommandTag, error)
 	Query(context.Context, string, ...any) (pgx.Rows, error)
