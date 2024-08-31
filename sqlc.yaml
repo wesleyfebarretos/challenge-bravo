@@ -6,6 +6,12 @@ overrides:
         engine: "postgresql"
         go_type:
           type: "int"
+      - db_type: "pg_catalog.timestamp"
+        engine: "postgresql"
+        go_type:
+          import: "time"
+          package: "time"
+          type: "Time"
 
 sql:
   - &schema
