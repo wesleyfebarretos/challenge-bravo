@@ -2,16 +2,21 @@ package entity
 
 import (
 	"context"
+	"time"
 
 	"github.com/wesleyfebarretos/challenge-bravo/internal/enum"
 )
 
 type User struct {
-	Active *bool
-	Name   string
-	Email  string
-	Role   enum.Role
-	ID     int
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	Active    *bool     `json:"active,omitempty"`
+	FirstName string
+	LastName  string
+	Password  string
+	Email     string
+	Role      enum.Role
+	ID        int `json:"id,omitempty"`
 }
 
 type UserRepository interface {
