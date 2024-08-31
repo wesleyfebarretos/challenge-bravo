@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
@@ -63,6 +64,23 @@ func Init() error {
 		return err
 	}
 
+	err = healthCheck()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
+func healthCheck() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
+	// Simple query to check database connectivity
+	row := Conn.QueryRow(ctx, "SELECT 1")
+	var result int
+	if err := row.Scan(&result); err != nil {
+		return fmt.Errorf("database health check failed: %w", err)
+	}
+	return nil
+}

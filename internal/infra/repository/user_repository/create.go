@@ -14,6 +14,7 @@ func CreateMapToDB(u entity.User) user_connection.CreateParams {
 		Email:     u.Email,
 		FirstName: u.FirstName,
 		LastName:  u.LastName,
+		Password:  u.Password,
 	}
 }
 

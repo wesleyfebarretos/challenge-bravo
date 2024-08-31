@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/joho/godotenv"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/config"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/infra/db"
+	"github.com/wesleyfebarretos/challenge-bravo/internal/route"
 )
 
 func main() {
@@ -19,4 +21,10 @@ func main() {
 	}
 
 	defer db.Conn.Close()
+
+	routes := route.Init()
+
+	if err := routes.Run(fmt.Sprintf(":%s", config.Envs.Port)); err != nil {
+		log.Fatalf("Error on starting API: %v", err)
+	}
 }

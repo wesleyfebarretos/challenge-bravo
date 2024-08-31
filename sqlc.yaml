@@ -10,7 +10,6 @@ overrides:
         engine: "postgresql"
         go_type:
           import: "time"
-          package: "time"
           type: "Time"
 
 sql:

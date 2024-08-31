@@ -23,7 +23,7 @@ func (u UserRepository) WithTx(tx pgx.Tx) UserRepository {
 	}
 }
 
-func (u UserRepository) New() *UserRepository {
+func New() *UserRepository {
 	once.Do(func() {
 		repository = &UserRepository{
 			queries: user_connection.New(db.Conn),

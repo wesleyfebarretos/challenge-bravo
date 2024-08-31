@@ -10,7 +10,7 @@ import (
 	"github.com/wesleyfebarretos/challenge-bravo/internal/exception"
 )
 
-func getIdFromReq(c *gin.Context) int32 {
+func getIdFromReq(c *gin.Context) int {
 	id := c.Param("id")
 
 	intId, err := strconv.Atoi(id)
@@ -18,7 +18,7 @@ func getIdFromReq(c *gin.Context) int32 {
 		panic(exception.BadRequest(fmt.Sprintf("invalid id parameter %s", id)))
 	}
 
-	return int32(intId)
+	return intId
 }
 
 func getUuidFromReq(c *gin.Context) uuid.UUID {

@@ -7,6 +7,7 @@ package user_connection
 
 import (
 	"context"
+	"time"
 )
 
 const update = `-- name: Update :exec
@@ -15,17 +16,19 @@ SET
     role = $2,
     email = $3,
     first_name = $4,
-    last_name = $5
+    last_name = $5,
+    updated_at = $6
 WHERE
     id = $1
 `
 
 type UpdateParams struct {
-	ID        int    `json:"id"`
-	Role      Roles  `json:"role"`
-	Email     string `json:"email"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
+	ID        int       `json:"id"`
+	Role      Roles     `json:"role"`
+	Email     string    `json:"email"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func (q *Queries) Update(ctx context.Context, arg UpdateParams) error {
@@ -35,6 +38,7 @@ func (q *Queries) Update(ctx context.Context, arg UpdateParams) error {
 		arg.Email,
 		arg.FirstName,
 		arg.LastName,
+		arg.UpdatedAt,
 	)
 	return err
 }

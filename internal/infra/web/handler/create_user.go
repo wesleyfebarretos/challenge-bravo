@@ -79,9 +79,17 @@ func (h CreateUserHandler) Execute(c *gin.Context) {
 
 	readBody(c, &body)
 
+	body.Validate()
+
 	user := h.useCase.Execute(c, body.MapToDomain())
 
 	res := CreateUserResponse{}
 
 	c.JSON(http.StatusCreated, res.MapToResponse(user))
+}
+
+func NewCreateUserHandler(useCase usecase.CreateUserUseCase) CreateUserHandler {
+	return CreateUserHandler{
+		useCase: useCase,
+	}
 }

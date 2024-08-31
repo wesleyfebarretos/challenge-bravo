@@ -2,8 +2,10 @@ package usecase
 
 import (
 	"context"
+	"time"
 
 	"github.com/wesleyfebarretos/challenge-bravo/internal/entity"
+	"github.com/wesleyfebarretos/challenge-bravo/internal/enum"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/exception"
 )
 
@@ -12,6 +14,9 @@ type UpdateUserUseCase struct {
 }
 
 func (u UpdateUserUseCase) Execute(c context.Context, p entity.User) {
+	p.Role = enum.USER
+	p.UpdatedAt = time.Now()
+
 	err := u.repository.Update(c, p)
 	if err != nil {
 		panic(exception.InternalServer(err.Error()))

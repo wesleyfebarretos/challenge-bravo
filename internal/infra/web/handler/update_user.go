@@ -29,6 +29,7 @@ func (h UpdateUserRequest) MapToDomain() entity.User {
 		LastName:  h.LastName,
 		Password:  h.Password,
 		Email:     h.Email,
+		ID:        h.ID,
 	}
 }
 
@@ -51,9 +52,21 @@ func (h UpdateUserRequest) Validate() {
 func (h UpdateUserHandler) Execute(c *gin.Context) {
 	body := UpdateUserRequest{}
 
+	id := getIdFromReq(c)
+
 	readBody(c, &body)
+
+	body.Validate()
+
+	body.ID = id
 
 	h.useCase.Execute(c, body.MapToDomain())
 
 	c.JSON(http.StatusOK, true)
+}
+
+func NewUpdateUserHandler(useCase usecase.UpdateUserUseCase) UpdateUserHandler {
+	return UpdateUserHandler{
+		useCase: useCase,
+	}
 }

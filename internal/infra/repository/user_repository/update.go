@@ -14,6 +14,7 @@ func UpdateMapToDB(u entity.User) user_connection.UpdateParams {
 		Email:     u.Email,
 		FirstName: u.FirstName,
 		LastName:  u.LastName,
+		UpdatedAt: u.UpdatedAt,
 	}
 }
 
@@ -25,4 +26,3 @@ func (u UserRepository) Update(c context.Context, user entity.User) error {
 
 	return nil
 }
-
