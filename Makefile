@@ -2,6 +2,9 @@ include .env
 
 DATABASE=${DB_DRIVER}://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}?sslmode=disable
 
+start-services:
+	@docker compose up -d
+
 restart-services:
 	@docker compose down --volumes
 	@docker compose up -d
