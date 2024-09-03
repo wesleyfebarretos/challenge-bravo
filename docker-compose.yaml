@@ -38,8 +38,6 @@ services:
     init: true
     depends_on:
         - postgres
-    # environment:
-    # - DATABASE_URL=postgres://postgres:foobarbaz@db:5432/postgres
     networks:
         - app
     ports:
