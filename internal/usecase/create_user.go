@@ -6,6 +6,7 @@ import (
 	"github.com/wesleyfebarretos/challenge-bravo/internal/entity"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/enum"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/exception"
+	"github.com/wesleyfebarretos/challenge-bravo/pkg/utils"
 )
 
 type CreateUserUseCase struct {
@@ -14,6 +15,13 @@ type CreateUserUseCase struct {
 
 func (u CreateUserUseCase) Execute(c context.Context, p entity.User) entity.User {
 	p.Role = enum.USER
+
+	hash, err := utils.HashPassword(p.Password)
+	if err != nil {
+		panic(exception.InternalServer(err.Error()))
+	}
+
+	p.Password = hash
 
 	user, err := u.repository.Create(c, p)
 	if err != nil {
