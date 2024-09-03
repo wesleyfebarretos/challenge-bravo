@@ -24,4 +24,5 @@ type UserRepository interface {
 	WithTx(pgx.Tx) UserRepository
 	Create(context.Context, User) (User, error)
 	Update(context.Context, User) error
+	GetOneByEmail(context.Context, string) (*User, error)
 }

@@ -16,7 +16,7 @@ sql:
   - &schema
     engine: "postgresql"
     schema: "internal/migration/*"
-    queries: "./internal/infra/repository/queries/user"
+    queries: "./internal/infra/repository/query/user"
     gen:
       go: &default_configs
         package: "user_connection"
