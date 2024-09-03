@@ -11,8 +11,8 @@ func (e *UnauthorizedException) Error() string {
 	return e.Message
 }
 
-func Unauthorized(message string) *UnauthorizedException {
-	return &UnauthorizedException{
+func Unauthorized(message string) *HttpException {
+	return &HttpException{
 		Code:    http.StatusUnauthorized,
 		Message: message,
 	}

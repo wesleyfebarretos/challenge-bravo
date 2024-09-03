@@ -11,8 +11,8 @@ func (e *BadRequestException) Error() string {
 	return e.Message
 }
 
-func BadRequest(message string) *BadRequestException {
-	return &BadRequestException{
+func BadRequest(message string) *HttpException {
+	return &HttpException{
 		Code:    http.StatusBadRequest,
 		Message: message,
 	}

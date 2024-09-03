@@ -11,8 +11,8 @@ func (e *NotFoundException) Error() string {
 	return e.Message
 }
 
-func NotFound(message string) *NotFoundException {
-	return &NotFoundException{
+func NotFound(message string) *HttpException {
+	return &HttpException{
 		Code:    http.StatusNotFound,
 		Message: message,
 	}

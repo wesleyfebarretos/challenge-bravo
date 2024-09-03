@@ -11,8 +11,8 @@ func (e *InternalServerException) Error() string {
 	return e.Message
 }
 
-func InternalServer(message string) *InternalServerException {
-	return &InternalServerException{
+func InternalServer(message string) *HttpException {
+	return &HttpException{
 		Code:    http.StatusInternalServerError,
 		Message: message,
 	}
