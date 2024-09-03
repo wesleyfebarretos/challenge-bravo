@@ -21,7 +21,7 @@ type User struct {
 }
 
 type UserRepository interface {
+	WithTx(pgx.Tx) UserRepository
 	Create(context.Context, User) (User, error)
 	Update(context.Context, User) error
-	WithTx(pgx.Tx) UserRepository
 }

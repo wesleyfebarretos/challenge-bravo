@@ -25,11 +25,11 @@ type Currency struct {
 }
 
 type CurrencyRepository interface {
+	WithTx(pgx.Tx) CurrencyRepository
 	Create(context.Context, Currency) (Currency, error)
 	FindOneById(context.Context, int32) (*Currency, error)
 	FindOneByCode(context.Context, string) (*Currency, error)
 	Update(context.Context, Currency) error
 	Delete(context.Context, int32) error
 	FindAll(context.Context) ([]Currency, error)
-	WithTx(pgx.Tx) CurrencyRepository
 }
