@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/enum"
 )
 
@@ -22,4 +23,5 @@ type User struct {
 type UserRepository interface {
 	Create(context.Context, User) (User, error)
 	Update(context.Context, User) error
+	WithTx(pgx.Tx) UserRepository
 }

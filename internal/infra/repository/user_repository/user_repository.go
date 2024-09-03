@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/wesleyfebarretos/challenge-bravo/internal/entity"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/infra/db"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/infra/repository/sqlc/user_connection"
 )
@@ -17,8 +18,8 @@ type UserRepository struct {
 	queries *user_connection.Queries
 }
 
-func (u UserRepository) WithTx(tx pgx.Tx) UserRepository {
-	return UserRepository{
+func (u UserRepository) WithTx(tx pgx.Tx) entity.UserRepository {
+	return &UserRepository{
 		queries: u.queries.WithTx(tx),
 	}
 }

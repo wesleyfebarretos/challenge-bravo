@@ -3,6 +3,8 @@ package entity
 import (
 	"context"
 	"time"
+
+	"github.com/jackc/pgx/v5"
 )
 
 type Currency struct {
@@ -29,4 +31,5 @@ type CurrencyRepository interface {
 	Update(context.Context, Currency) error
 	Delete(context.Context, int32) error
 	FindAll(context.Context) ([]Currency, error)
+	WithTx(pgx.Tx) CurrencyRepository
 }
