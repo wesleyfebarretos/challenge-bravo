@@ -25,4 +25,5 @@ type UserRepository interface {
 	Create(context.Context, User) (User, error)
 	Update(context.Context, User) error
 	GetOneByEmail(context.Context, string) (*User, error)
+	GetOneById(context.Context, int) (*User, error)
 }

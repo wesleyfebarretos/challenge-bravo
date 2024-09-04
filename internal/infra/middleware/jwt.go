@@ -6,7 +6,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/exception"
+	"github.com/wesleyfebarretos/challenge-bravo/internal/infra/repository/user_repository"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/infra/service"
+	"github.com/wesleyfebarretos/challenge-bravo/internal/usecase"
 )
 
 func Jwt(c *gin.Context) {
@@ -25,12 +27,15 @@ func Jwt(c *gin.Context) {
 		panic(exception.Unauthorized("access not authorized"))
 	}
 
+	_, err = usecase.NewGetUseByIdUseCase(user_repository.New()).Execute(c, claims.ID)
+	if err != nil {
+		panic(exception.Unauthorized("access not authorized"))
+	}
+
 	claimsToJson, err := json.Marshal(claims)
 	if err != nil {
 		panic(exception.InternalServer(err.Error()))
 	}
-
-	//  TODO: Add user use case to get user by id returned
 
 	c.Header("user", string(claimsToJson))
 

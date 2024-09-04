@@ -8,7 +8,7 @@ import (
 	"github.com/wesleyfebarretos/challenge-bravo/internal/infra/repository/sqlc/user_connection"
 )
 
-func GetOneByEmailMapToEntity(p user_connection.User) *entity.User {
+func GetOneByIdMapToEntity(p user_connection.User) *entity.User {
 	return &entity.User{
 		CreatedAt: p.CreatedAt,
 		UpdatedAt: p.UpdatedAt,
@@ -22,11 +22,11 @@ func GetOneByEmailMapToEntity(p user_connection.User) *entity.User {
 	}
 }
 
-func (u UserRepository) GetOneByEmail(c context.Context, email string) (*entity.User, error) {
-	user, err := u.queries.GetOneByEmail(c, email)
+func (u UserRepository) GetOneById(c context.Context, id int) (*entity.User, error) {
+	user, err := u.queries.GetOneById(c, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return GetOneByEmailMapToEntity(user), nil
+	return GetOneByIdMapToEntity(user), nil
 }
