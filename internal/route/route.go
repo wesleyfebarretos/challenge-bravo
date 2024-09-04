@@ -13,6 +13,8 @@ func Init() *gin.Engine {
 	v1 := router.Group("/v1")
 
 	handleUser(v1)
+	handleCurrency(v1)
+	handleAuth(v1)
 
 	return router
 }

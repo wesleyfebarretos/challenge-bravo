@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"strconv"
@@ -8,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/exception"
+	"github.com/wesleyfebarretos/challenge-bravo/internal/infra/service"
 )
 
 func getIdFromReq(c *gin.Context) int {
@@ -40,4 +42,27 @@ func readBody[B any](c *gin.Context, body *B) {
 	if err != nil {
 		panic(exception.BadRequest(err.Error()))
 	}
+}
+
+func GetUserClaims(c *gin.Context) service.JwtClaims {
+	user, ok := c.Get("user")
+
+	if !ok {
+		panic(exception.InternalServer("access not authorized"))
+	}
+
+	claims := service.JwtClaims{}
+
+	user, ok = user.([]byte)
+	if !ok {
+		panic(exception.InternalServer(fmt.Sprintf("expected user request []byte, receive %T", user)))
+	}
+
+	err := json.Unmarshal(user.([]byte), &claims)
+
+	if err != nil {
+		panic(exception.InternalServer(err.Error()))
+	}
+
+	return claims
 }

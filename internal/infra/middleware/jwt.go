@@ -37,7 +37,7 @@ func Jwt(c *gin.Context) {
 		panic(exception.InternalServer(err.Error()))
 	}
 
-	c.Header("user", string(claimsToJson))
+	c.Set("user", claimsToJson)
 
 	c.Next()
 }

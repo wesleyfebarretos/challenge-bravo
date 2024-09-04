@@ -28,7 +28,7 @@ func (j JwtService) CreateToken(user entity.User) (string, error) {
 			"exp":   time.Now().Add(time.Hour * time.Duration(config.Envs.Jwt.ExpirationInHour)).Unix(),
 		})
 
-	tokenString, err := token.SignedString(config.Envs.Jwt.Secret)
+	tokenString, err := token.SignedString([]byte(config.Envs.Jwt.Secret))
 	if err != nil {
 		return "", err
 	}
@@ -42,7 +42,7 @@ func (j JwtService) VerifyToken(assignedToken string) (JwtClaims, error) {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 
-		return config.Envs.Jwt.Secret, nil
+		return []byte(config.Envs.Jwt.Secret), nil
 	})
 
 	if err != nil {
@@ -59,10 +59,10 @@ func (j JwtService) VerifyToken(assignedToken string) (JwtClaims, error) {
 	}
 
 	responseClaims := JwtClaims{
-		Exp:   time.Unix(claims["exp"].(int64), 0),
+		Exp:   time.Unix(int64(claims["exp"].(float64)), 0),
 		Email: claims["email"].(string),
-		Role:  claims["role"].(enum.Role),
-		ID:    claims["id"].(int),
+		Role:  enum.Role(claims["role"].(string)),
+		ID:    int(claims["id"].(float64)),
 	}
 
 	return responseClaims, nil
