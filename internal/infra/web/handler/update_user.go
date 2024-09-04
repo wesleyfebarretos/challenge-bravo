@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/entity"
@@ -33,20 +35,28 @@ func (h UpdateUserRequest) MapToDomain() entity.User {
 	}
 }
 
-func (h UpdateUserRequest) Validate() {
+func (h UpdateUserRequest) Valid() error {
+	reqErrors := []string{}
+
 	if h.FirstName == "" {
-		panic(exception.BadRequest("first_name is required"))
+		reqErrors = append(reqErrors, "first_name is required")
 	}
 
 	if h.LastName == "" {
-		panic(exception.BadRequest("last_name is required"))
+		reqErrors = append(reqErrors, "last_name is required")
 	}
 	if h.Password == "" {
-		panic(exception.BadRequest("password is required"))
+		reqErrors = append(reqErrors, "password is required")
 	}
 	if h.Email == "" {
-		panic(exception.BadRequest("email is required"))
+		reqErrors = append(reqErrors, "email is required")
 	}
+
+	if len(reqErrors) > 0 {
+		return errors.New(strings.Join(reqErrors, ", "))
+	}
+
+	return nil
 }
 
 func (h UpdateUserHandler) Execute(c *gin.Context) {
@@ -56,7 +66,10 @@ func (h UpdateUserHandler) Execute(c *gin.Context) {
 
 	readBody(c, &body)
 
-	body.Validate()
+	err := body.Valid()
+	if err != nil {
+		panic(exception.BadRequest(err.Error()))
+	}
 
 	body.ID = id
 

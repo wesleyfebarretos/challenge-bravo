@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -44,20 +46,28 @@ func (h CreateUserRequest) MapToDomain() entity.User {
 	}
 }
 
-func (h CreateUserRequest) Validate() {
+func (h CreateUserRequest) Valid() error {
+	reqErrors := []string{}
+
 	if h.FirstName == "" {
-		panic(exception.BadRequest("first_name is required"))
+		reqErrors = append(reqErrors, "first_name is required")
 	}
 
 	if h.LastName == "" {
-		panic(exception.BadRequest("last_name is required"))
+		reqErrors = append(reqErrors, "last_name is required")
 	}
 	if h.Password == "" {
-		panic(exception.BadRequest("password is required"))
+		reqErrors = append(reqErrors, "password is required")
 	}
 	if h.Email == "" {
-		panic(exception.BadRequest("email is required"))
+		reqErrors = append(reqErrors, "email is required")
 	}
+
+	if len(reqErrors) > 0 {
+		return errors.New(strings.Join(reqErrors, ", "))
+	}
+
+	return nil
 }
 
 func (h CreateUserResponse) MapToResponse(u entity.User) CreateUserResponse {
@@ -79,7 +89,11 @@ func (h CreateUserHandler) Execute(c *gin.Context) {
 
 	readBody(c, &body)
 
-	body.Validate()
+	err := body.Valid()
+
+	if err != nil {
+		panic(exception.BadRequest(err.Error()))
+	}
 
 	user := h.useCase.Execute(c, body.MapToDomain())
 
