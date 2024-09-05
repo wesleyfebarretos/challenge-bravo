@@ -61,7 +61,7 @@ func (l *LogService) buildLog(event *zerolog.Event, m map[string]any) {
 	}
 }
 
-func (l *LogService) Info(m map[string]any, logMessageIdentifier string) {
+func (l *LogService) Info(logMessageIdentifier string, m map[string]any) {
 	event := l.log.Info()
 
 	l.buildLog(event, m)

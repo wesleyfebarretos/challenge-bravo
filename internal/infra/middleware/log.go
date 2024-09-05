@@ -14,11 +14,11 @@ func Log(c *gin.Context) {
 
 	c.Next()
 
-	log.Info(map[string]any{
+	log.Info("incoming request", map[string]any{
 		"method":      c.Request.Method,
 		"url":         c.Request.URL.String(),
 		"user_agent":  c.Request.UserAgent(),
 		"elapsed_ms":  time.Since(start),
 		"status_code": c.Writer.Status(),
-	}, "incoming request")
+	})
 }
