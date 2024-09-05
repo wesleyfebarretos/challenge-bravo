@@ -11,6 +11,10 @@ overrides:
         go_type:
           import: "time"
           type: "Time"
+      - db_type: "pg_catalog.numeric"
+        engine: "postgresql"
+        go_type:
+          type: "float64"
 
 sql:
   - &schema
@@ -30,10 +34,10 @@ sql:
         emit_all_enum_values: true
         omit_unused_structs: true
 
-  # - <<: *schema
-  #   queries: "./internal/infra/repository/queries/currency.sql"
-  #   gen:
-  #     go:
-  #       <<: *default_configs
-  #       package: "currency_connection"
-  #       out: "./internal/infra/repository/sqlc/currency_connection"
+  - <<: *schema
+    queries: "./internal/infra/repository/query/currency"
+    gen:
+      go:
+        <<: *default_configs
+        package: "currency_connection"
+        out: "./internal/infra/repository/sqlc/currency_connection"
