@@ -15,6 +15,15 @@ overrides:
         engine: "postgresql"
         go_type:
           type: "float64"
+      - db_type: "pg_catalog.int4"
+        engine: "postgresql"
+        go_type:
+          type: "int"
+      - db_type: "pg_catalog.int4"
+        nullable: true
+        engine: "postgresql"
+        go_type:
+          type: "*int"
 
 sql:
   - &schema

@@ -11,7 +11,7 @@ import (
 
 var (
 	once       sync.Once
-	repository *UserRepository
+	repository entity.UserRepository
 )
 
 type UserRepository struct {
@@ -24,7 +24,7 @@ func (u UserRepository) WithTx(tx pgx.Tx) entity.UserRepository {
 	}
 }
 
-func New() *UserRepository {
+func New() entity.UserRepository {
 	once.Do(func() {
 		repository = &UserRepository{
 			queries: user_connection.New(db.Conn),

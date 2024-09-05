@@ -35,14 +35,14 @@ type UpdateParams struct {
 	ID_2            int       `json:"id_2"`
 	Name            string    `json:"name"`
 	Code            string    `json:"code"`
-	Number          *int32    `json:"number"`
+	Number          *int      `json:"number"`
 	Country         *string   `json:"country"`
 	CountryCode     *string   `json:"country_code"`
 	SearchUrl       *string   `json:"search_url"`
 	RealTimeValue   float64   `json:"real_time_value"`
 	UsdExchangeRate float64   `json:"usd_exchange_rate"`
 	Fic             bool      `json:"fic"`
-	UpdatedBy       *int32    `json:"updated_by"`
+	UpdatedBy       *int      `json:"updated_by"`
 	UpdatedAt       time.Time `json:"updated_at"`
 }
 

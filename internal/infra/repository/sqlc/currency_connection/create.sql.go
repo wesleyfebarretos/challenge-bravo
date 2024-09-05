@@ -22,8 +22,8 @@ type CreateParams struct {
 	Code            string  `json:"code"`
 	RealTimeValue   float64 `json:"real_time_value"`
 	UsdExchangeRate float64 `json:"usd_exchange_rate"`
-	CreatedBy       int32   `json:"created_by"`
-	Number          *int32  `json:"number"`
+	CreatedBy       int     `json:"created_by"`
+	Number          *int    `json:"number"`
 	Country         *string `json:"country"`
 	CountryCode     *string `json:"country_code"`
 	SearchUrl       *string `json:"search_url"`
