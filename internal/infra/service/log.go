@@ -10,6 +10,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/pkgerrors"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/config"
+	"github.com/wesleyfebarretos/challenge-bravo/internal/types"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
@@ -72,7 +73,7 @@ var once sync.Once
 
 var log zerolog.Logger
 
-func NewLogService() LogService {
+func NewLogService() types.ILogService {
 	once.Do(func() {
 		zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
 		zerolog.TimeFieldFormat = time.RFC3339Nano
@@ -104,5 +105,5 @@ func NewLogService() LogService {
 			Logger()
 	})
 
-	return LogService{log: log}
+	return &LogService{log: log}
 }
