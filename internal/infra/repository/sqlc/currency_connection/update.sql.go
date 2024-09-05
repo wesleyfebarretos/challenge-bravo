@@ -21,11 +21,10 @@ SET
     country = $6,
     country_code = $7,
     search_url = $8,
-    real_time_value = $9,
-    usd_exchange_rate = $10,
-    fic = $11,
-    updated_by = $12,
-    updated_at = $13
+    usd_exchange_rate = $9,
+    fic = $10,
+    updated_by = $11,
+    updated_at = $12
 WHERE
     id = $1
 `
@@ -39,7 +38,6 @@ type UpdateParams struct {
 	Country         *string   `json:"country"`
 	CountryCode     *string   `json:"country_code"`
 	SearchUrl       *string   `json:"search_url"`
-	RealTimeValue   float64   `json:"real_time_value"`
 	UsdExchangeRate float64   `json:"usd_exchange_rate"`
 	Fic             bool      `json:"fic"`
 	UpdatedBy       *int      `json:"updated_by"`
@@ -56,7 +54,6 @@ func (q *Queries) Update(ctx context.Context, arg UpdateParams) error {
 		arg.Country,
 		arg.CountryCode,
 		arg.SearchUrl,
-		arg.RealTimeValue,
 		arg.UsdExchangeRate,
 		arg.Fic,
 		arg.UpdatedBy,

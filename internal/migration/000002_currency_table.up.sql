@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS currency (
     country VARCHAR(100),
     country_code VARCHAR(3),
     search_url TEXT,
-    real_time_value DECIMAL(10, 2) NOT NULL,
     usd_exchange_rate DECIMAL(10, 2) NOT NULL,
     fic BOOLEAN NOT NULL DEFAULT FALSE,
     created_by INT NOT NULL REFERENCES users(id),

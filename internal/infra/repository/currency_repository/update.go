@@ -9,15 +9,14 @@ import (
 
 func UpdateMapToDB(p entity.Currency) currency_connection.UpdateParams {
 	return currency_connection.UpdateParams{
-		Name:            p.Name,
-		Code:            p.Code,
-		RealTimeValue:   p.RealTimeValue,
-		UsdExchangeRate: p.USDExchangeRate,
-		UpdatedBy:       &p.UpdatedBy,
-		Number:          p.Number,
-		Country:         p.Country,
-		CountryCode:     p.CountryCode,
-		SearchUrl:       p.SearchURL,
+		Name:          p.Name,
+		Code:          p.Code,
+		RealTimeValue: p.RealTimeValue,
+		UpdatedBy:     &p.UpdatedBy,
+		Number:        p.Number,
+		Country:       p.Country,
+		CountryCode:   p.CountryCode,
+		SearchUrl:     p.SearchURL,
 	}
 }
 

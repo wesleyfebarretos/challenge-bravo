@@ -12,20 +12,19 @@ func FindAllMapToEntity(p []currency_connection.Currency) []entity.Currency {
 
 	for _, v := range p {
 		res = append(res, entity.Currency{
-			CreatedAt:       v.CreatedAt,
-			UpdatedAt:       v.UpdatedAt,
-			CountryCode:     v.CountryCode,
-			Number:          v.Number,
-			SearchURL:       v.SearchUrl,
-			Fic:             &v.Fic,
-			Country:         v.Country,
-			Name:            v.Name,
-			Code:            v.Code,
-			USDExchangeRate: v.UsdExchangeRate,
-			ID:              v.ID,
-			CreatedBy:       v.CreatedBy,
-			UpdatedBy:       *v.UpdatedBy,
-			RealTimeValue:   v.RealTimeValue,
+			CreatedAt:     v.CreatedAt,
+			UpdatedAt:     v.UpdatedAt,
+			CountryCode:   v.CountryCode,
+			Number:        v.Number,
+			SearchURL:     v.SearchUrl,
+			Fic:           &v.Fic,
+			Country:       v.Country,
+			Name:          v.Name,
+			Code:          v.Code,
+			ID:            v.ID,
+			CreatedBy:     v.CreatedBy,
+			UpdatedBy:     *v.UpdatedBy,
+			RealTimeValue: v.RealTimeValue,
 		})
 	}
 

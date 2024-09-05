@@ -16,7 +16,6 @@ type Currency struct {
 	Country         *string   `json:"country"`
 	CountryCode     *string   `json:"country_code"`
 	SearchUrl       *string   `json:"search_url"`
-	RealTimeValue   float64   `json:"real_time_value"`
 	UsdExchangeRate float64   `json:"usd_exchange_rate"`
 	Fic             bool      `json:"fic"`
 	CreatedBy       int       `json:"created_by"`

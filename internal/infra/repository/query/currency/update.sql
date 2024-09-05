@@ -9,10 +9,9 @@ SET
     country = $6,
     country_code = $7,
     search_url = $8,
-    real_time_value = $9,
-    usd_exchange_rate = $10,
-    fic = $11,
-    updated_by = $12,
-    updated_at = $13
+    usd_exchange_rate = $9,
+    fic = $10,
+    updated_by = $11,
+    updated_at = $12
 WHERE
     id = $1;

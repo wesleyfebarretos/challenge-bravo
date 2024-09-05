@@ -10,7 +10,7 @@ import (
 )
 
 const findOneById = `-- name: FindOneById :one
-SELECT id, name, code, number, country, country_code, search_url, real_time_value, usd_exchange_rate, fic, created_by, updated_by, created_at, updated_at FROM currency WHERE id = $1
+SELECT id, name, code, number, country, country_code, search_url, usd_exchange_rate, fic, created_by, updated_by, created_at, updated_at FROM currency WHERE id = $1
 `
 
 func (q *Queries) FindOneById(ctx context.Context, id int) (Currency, error) {
@@ -24,7 +24,6 @@ func (q *Queries) FindOneById(ctx context.Context, id int) (Currency, error) {
 		&i.Country,
 		&i.CountryCode,
 		&i.SearchUrl,
-		&i.RealTimeValue,
 		&i.UsdExchangeRate,
 		&i.Fic,
 		&i.CreatedBy,

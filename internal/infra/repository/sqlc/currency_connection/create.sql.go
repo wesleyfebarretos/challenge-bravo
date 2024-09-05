@@ -11,16 +11,15 @@ import (
 
 const create = `-- name: Create :one
 INSERT INTO currency
-    (name, code, real_time_value, usd_exchange_rate, created_by, "number", country, country_code, search_url)
+    (name, code, usd_exchange_rate, created_by, "number", country, country_code, search_url)
 VALUES
-    ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-RETURNING id, name, code, number, country, country_code, search_url, real_time_value, usd_exchange_rate, fic, created_by, updated_by, created_at, updated_at
+    ($1,$2,$3,$4,$5,$6,$7,$8)
+RETURNING id, name, code, number, country, country_code, search_url, usd_exchange_rate, fic, created_by, updated_by, created_at, updated_at
 `
 
 type CreateParams struct {
 	Name            string  `json:"name"`
 	Code            string  `json:"code"`
-	RealTimeValue   float64 `json:"real_time_value"`
 	UsdExchangeRate float64 `json:"usd_exchange_rate"`
 	CreatedBy       int     `json:"created_by"`
 	Number          *int    `json:"number"`
@@ -33,7 +32,6 @@ func (q *Queries) Create(ctx context.Context, arg CreateParams) (Currency, error
 	row := q.db.QueryRow(ctx, create,
 		arg.Name,
 		arg.Code,
-		arg.RealTimeValue,
 		arg.UsdExchangeRate,
 		arg.CreatedBy,
 		arg.Number,
@@ -50,7 +48,6 @@ func (q *Queries) Create(ctx context.Context, arg CreateParams) (Currency, error
 		&i.Country,
 		&i.CountryCode,
 		&i.SearchUrl,
-		&i.RealTimeValue,
 		&i.UsdExchangeRate,
 		&i.Fic,
 		&i.CreatedBy,
