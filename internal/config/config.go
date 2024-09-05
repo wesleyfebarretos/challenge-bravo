@@ -5,6 +5,8 @@ import (
 	"os"
 	"strconv"
 	"sync"
+
+	"github.com/rs/zerolog"
 )
 
 type DBConfig struct {
@@ -23,7 +25,18 @@ type JWT struct {
 	ExpirationInHour int
 }
 
+type LogConfig struct {
+	LogLevel   int
+	Filename   string
+	MaxSize    int
+	MaxBackups int
+	MaxAge     int
+	Compress   bool
+	Output     *os.File
+}
+
 type Config struct {
+	Log      LogConfig
 	ApiToken string
 	AppEnv   string
 	Port     string
@@ -55,6 +68,15 @@ func Init() {
 			Jwt: JWT{
 				Secret:           getEnv("API_TOKEN", "ToYaaRUiza7cYAMzD+Pk2ha9N2Xn3rwMpuhd2JVEQ/Usdbte6kFaIOoIWm6qXgOXt0qYZo3uHTvecySPo4p5zQ=="),
 				ExpirationInHour: 48,
+			},
+			Log: LogConfig{
+				LogLevel:   getEnvAsInt("LOG_LEVEL", int(zerolog.InfoLevel)),
+				Filename:   getEnv("LOG_FILE_NAME", "logs/app.log"),
+				MaxSize:    getEnvAsInt("LOG_MAX_SIZE", 5),
+				MaxBackups: getEnvAsInt("LOG_MAX_BACKUPS", 5),
+				MaxAge:     getEnvAsInt("LOG_MAX_AGE", 30),
+				Compress:   getEnvAsBool("LOG_COMPRESS", true),
+				Output:     os.Stdout,
 			},
 		}
 	})

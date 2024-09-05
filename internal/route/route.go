@@ -8,6 +8,7 @@ import (
 func Init() *gin.Engine {
 	router := gin.New()
 
+	router.Use(middleware.Log)
 	router.Use(gin.CustomRecovery(middleware.ExceptionHandler))
 
 	v1 := router.Group("/v1")
