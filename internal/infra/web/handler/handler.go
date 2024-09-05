@@ -44,7 +44,7 @@ func readBody[B any](c *gin.Context, body *B) {
 	}
 }
 
-func GetUserClaims(c *gin.Context) service.JwtClaims {
+func getUserClaims(c *gin.Context) service.JwtClaims {
 	user, ok := c.Get("user")
 
 	if !ok {

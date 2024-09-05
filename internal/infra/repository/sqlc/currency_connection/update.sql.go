@@ -14,24 +14,22 @@ const update = `-- name: Update :exec
 UPDATE
     currency
 SET
-    id = $2,
-    name = $3,
-    code = $4,
-    number = $5,
-    country = $6,
-    country_code = $7,
-    search_url = $8,
-    usd_exchange_rate = $9,
-    fic = $10,
-    updated_by = $11,
-    updated_at = $12
+    name = $2,
+    code = $3,
+    number = $4,
+    country = $5,
+    country_code = $6,
+    search_url = $7,
+    usd_exchange_rate = $8,
+    fic = $9,
+    updated_by = $10,
+    updated_at = $11
 WHERE
     id = $1
 `
 
 type UpdateParams struct {
 	ID              int       `json:"id"`
-	ID_2            int       `json:"id_2"`
 	Name            string    `json:"name"`
 	Code            string    `json:"code"`
 	Number          *int      `json:"number"`
@@ -47,7 +45,6 @@ type UpdateParams struct {
 func (q *Queries) Update(ctx context.Context, arg UpdateParams) error {
 	_, err := q.db.Exec(ctx, update,
 		arg.ID,
-		arg.ID_2,
 		arg.Name,
 		arg.Code,
 		arg.Number,

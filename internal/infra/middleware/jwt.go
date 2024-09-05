@@ -32,12 +32,12 @@ func Jwt(c *gin.Context) {
 		panic(exception.Unauthorized("access not authorized"))
 	}
 
-	claimsToJson, err := json.Marshal(claims)
+	claimsToBytes, err := json.Marshal(claims)
 	if err != nil {
 		panic(exception.InternalServer(err.Error()))
 	}
 
-	c.Set("user", claimsToJson)
+	c.Set("user", claimsToBytes)
 
 	c.Next()
 }

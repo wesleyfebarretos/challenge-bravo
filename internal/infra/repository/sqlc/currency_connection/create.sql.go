@@ -11,9 +11,9 @@ import (
 
 const create = `-- name: Create :one
 INSERT INTO currency
-    (name, code, usd_exchange_rate, created_by, "number", country, country_code, search_url)
+    (name, code, usd_exchange_rate, created_by, "number", country, country_code, search_url, updated_by)
 VALUES
-    ($1,$2,$3,$4,$5,$6,$7,$8)
+    ($1,$2,$3,$4,$5,$6,$7,$8,$9)
 RETURNING id, name, code, number, country, country_code, search_url, usd_exchange_rate, fic, created_by, updated_by, created_at, updated_at
 `
 
@@ -26,6 +26,7 @@ type CreateParams struct {
 	Country         *string `json:"country"`
 	CountryCode     *string `json:"country_code"`
 	SearchUrl       *string `json:"search_url"`
+	UpdatedBy       *int    `json:"updated_by"`
 }
 
 func (q *Queries) Create(ctx context.Context, arg CreateParams) (Currency, error) {
@@ -38,6 +39,7 @@ func (q *Queries) Create(ctx context.Context, arg CreateParams) (Currency, error
 		arg.Country,
 		arg.CountryCode,
 		arg.SearchUrl,
+		arg.UpdatedBy,
 	)
 	var i Currency
 	err := row.Scan(

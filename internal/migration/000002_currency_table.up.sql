@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS currency (
     id SERIAL PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
-    code VARCHAR(3) NOT NULL,
+    code VARCHAR(5) NOT NULL,
     number INT,
     country VARCHAR(100),
     country_code VARCHAR(3),
