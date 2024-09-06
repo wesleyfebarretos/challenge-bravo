@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"strings"
 
 	"github.com/wesleyfebarretos/challenge-bravo/internal/entity"
 	"github.com/wesleyfebarretos/challenge-bravo/internal/exception"
@@ -12,7 +13,7 @@ type FindCurrencyByCodeUseCase struct {
 }
 
 func (u FindCurrencyByCodeUseCase) Execute(c context.Context, code string) *entity.Currency {
-	currency, err := u.repository.FindOneByCode(c, code)
+	currency, err := u.repository.FindOneByCode(c, strings.ToUpper(code))
 	if err != nil {
 		panic(exception.InternalServer(err.Error()))
 	}

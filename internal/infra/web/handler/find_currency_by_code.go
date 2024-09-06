@@ -54,7 +54,7 @@ func (h FindCurrencyByCodeHandler) Execute(c *gin.Context) {
 
 	res := FindCurrencyByCodeResponse{}
 
-	c.JSON(http.StatusCreated, res.MapToResponse(*currency))
+	c.JSON(http.StatusOK, res.MapToResponse(*currency))
 }
 
 func NewFindCurrencyByCodeHandler(useCase usecase.FindCurrencyByCodeUseCase) FindCurrencyByCodeHandler {

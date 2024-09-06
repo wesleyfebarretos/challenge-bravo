@@ -8,7 +8,7 @@ import (
 )
 
 func UpdateMapToDB(p entity.Currency) currency_connection.UpdateParams {
-	return currency_connection.UpdateParams{
+	res := currency_connection.UpdateParams{
 		ID:              p.ID,
 		Name:            p.Name,
 		Code:            p.Code,
@@ -17,10 +17,15 @@ func UpdateMapToDB(p entity.Currency) currency_connection.UpdateParams {
 		CountryCode:     p.CountryCode,
 		SearchUrl:       p.SearchURL,
 		UsdExchangeRate: p.USDExchangeRate,
-		Fic:             *p.Fic,
 		UpdatedBy:       &p.UpdatedBy,
 		UpdatedAt:       p.UpdatedAt,
 	}
+
+	if p.Fic != nil {
+		res.Fic = *p.Fic
+	}
+
+	return res
 }
 
 func (c CurrencyRepository) Update(ctx context.Context, p entity.Currency) error {

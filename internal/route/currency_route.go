@@ -13,7 +13,19 @@ func handleCurrency(router *gin.RouterGroup) {
 
 	currencyRoute.Use(middleware.Jwt)
 
-	createCurrencyHandler := handler.NewCreateCurrencyHandler(usecase.NewCreateCurrencyUseCase(currency_repository.New()))
+	repository := currency_repository.New()
+
+	createCurrencyHandler := handler.NewCreateCurrencyHandler(usecase.NewCreateCurrencyUseCase(repository))
+	updateCurrencyHandler := handler.NewUpdateCurrencyHandler(usecase.NewUpdateCurrencyUseCase(repository))
+	deleteCurrencyHandler := handler.NewDeleteCurrencyHandler(usecase.NewDeleteCurrencyUseCase(repository))
+	FindCurrencyByCodeHandler := handler.NewFindCurrencyByCodeHandler(usecase.NewFindCurrencyByCodeUseCase(repository))
+	FindCurrencyByIdHandler := handler.NewFindCurrencyByIdHandler(usecase.NewFindCurrencyByIdUseCase(repository))
+	FindAllCurrencyHandler := handler.NewFindAllCurrencyHandler(usecase.NewFindAllCurrencyUseCase(repository))
 
 	currencyRoute.POST("", createCurrencyHandler.Execute)
+	currencyRoute.PUT(":id", updateCurrencyHandler.Execute)
+	currencyRoute.DELETE(":id", deleteCurrencyHandler.Execute)
+	currencyRoute.GET("", FindAllCurrencyHandler.Execute)
+	currencyRoute.GET(":id", FindCurrencyByIdHandler.Execute)
+	currencyRoute.GET("/code/:code", FindCurrencyByCodeHandler.Execute)
 }
