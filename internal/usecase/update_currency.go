@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/wesleyfebarretos/challenge-bravo/internal/entity"
@@ -16,6 +17,13 @@ func (u UpdateCurrencyUseCase) Execute(c context.Context, p entity.Currency, id,
 	p.ID = id
 	p.UpdatedAt = time.Now().UTC()
 	p.UpdatedBy = userID
+
+	p.Code = strings.ToUpper(p.Code)
+
+	if p.CountryCode != nil {
+		upperCountryCode := strings.ToUpper(*p.CountryCode)
+		p.CountryCode = &upperCountryCode
+	}
 
 	err := u.repository.Update(c, p)
 	if err != nil {

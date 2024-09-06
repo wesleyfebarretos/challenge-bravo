@@ -13,7 +13,8 @@ type FindCurrencyByCodeUseCase struct {
 }
 
 func (u FindCurrencyByCodeUseCase) Execute(c context.Context, code string) *entity.Currency {
-	currency, err := u.repository.FindOneByCode(c, strings.ToUpper(code))
+	upperCode := strings.ToUpper(code)
+	currency, err := u.repository.FindOneByCode(c, upperCode)
 	if err != nil {
 		panic(exception.InternalServer(err.Error()))
 	}
