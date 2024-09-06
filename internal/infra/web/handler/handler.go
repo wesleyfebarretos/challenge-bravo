@@ -23,6 +23,12 @@ func getIdFromReq(c *gin.Context) int {
 	return intId
 }
 
+func getParamAsString(c *gin.Context, param string) string {
+	p := c.Param(param)
+
+	return p
+}
+
 func getUuidFromReq(c *gin.Context) uuid.UUID {
 	uuidRequest := c.Param("uuid")
 
