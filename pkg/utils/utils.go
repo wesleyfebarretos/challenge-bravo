@@ -7,6 +7,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"io"
+	"math"
 
 	"github.com/wesleyfebarretos/challenge-bravo/internal/config"
 	"golang.org/x/crypto/bcrypt"
@@ -85,4 +86,9 @@ func Decrypt(ciphertextBase64 string) (string, error) {
 
 	// Return the decrypted plaintext as a string
 	return string(ciphertext), nil
+}
+
+func RoundFloat(val float64, precision uint) float64 {
+	ratio := math.Pow(10, float64(precision))
+	return math.Round(val*ratio) / ratio
 }

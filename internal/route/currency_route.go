@@ -21,6 +21,7 @@ func handleCurrency(router *gin.RouterGroup) {
 	FindCurrencyByCodeHandler := handler.NewFindCurrencyByCodeHandler(usecase.NewFindCurrencyByCodeUseCase(repository))
 	FindCurrencyByIdHandler := handler.NewFindCurrencyByIdHandler(usecase.NewFindCurrencyByIdUseCase(repository))
 	FindAllCurrencyHandler := handler.NewFindAllCurrencyHandler(usecase.NewFindAllCurrencyUseCase(repository))
+	currencyConversionHandler := handler.NewCurrencyConversionHandler(usecase.NewCurrencyConversionUseCase())
 
 	currencyRoute.POST("", createCurrencyHandler.Execute)
 	currencyRoute.PUT(":id", updateCurrencyHandler.Execute)
@@ -28,4 +29,5 @@ func handleCurrency(router *gin.RouterGroup) {
 	currencyRoute.GET("", FindAllCurrencyHandler.Execute)
 	currencyRoute.GET(":id", FindCurrencyByIdHandler.Execute)
 	currencyRoute.GET("/code/:code", FindCurrencyByCodeHandler.Execute)
+	currencyRoute.GET("convert", currencyConversionHandler.Execute)
 }
