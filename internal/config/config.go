@@ -35,6 +35,14 @@ type LogConfig struct {
 	Output     *os.File
 }
 
+type RedisConfig struct {
+	Password    string
+	HostAndPort string
+	Host        string
+	Port        string
+	User        string
+}
+
 type Config struct {
 	Log      LogConfig
 	ApiToken string
@@ -42,6 +50,7 @@ type Config struct {
 	Port     string
 	DB       DBConfig
 	Jwt      JWT
+	Redis    RedisConfig
 }
 
 var (
@@ -77,6 +86,13 @@ func Init() {
 				MaxAge:     getEnvAsInt("LOG_MAX_AGE", 30),
 				Compress:   getEnvAsBool("LOG_COMPRESS", true),
 				Output:     os.Stdout,
+			},
+			Redis: RedisConfig{
+				Password:    getEnv("REDIS_PASSWORD", "root"),
+				HostAndPort: fmt.Sprintf("%s:%s", getEnv("REDIS_HOST", "redis"), getEnv("REDIS_PORT", "6379")),
+				Host:        getEnv("REDIS_HOST", "localhost"),
+				Port:        getEnv("REDIS_PORT", "6379"),
+				User:        getEnv("REDIS_USER", ""),
 			},
 		}
 	})
