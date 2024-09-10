@@ -49,7 +49,7 @@ services:
       target: dev
     volumes:
       - type: bind
-        source: .
+        source: ./app
         target: /app/
     init: true
     depends_on:

@@ -9,7 +9,6 @@ import (
 	"io"
 	"math"
 
-	"github.com/wesleyfebarretos/challenge-bravo/internal/config"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -26,7 +25,7 @@ func IsValidPassword(hashedPassword, password string) bool {
 	return err == nil
 }
 
-func Encrypt(plaintext string, secret string) (string, error) {
+func Encrypt(plaintext, secret string) (string, error) {
 	// Hash the API token to create a 32-byte key
 	hash := sha256.Sum256([]byte(secret))
 	key := hash[:]
@@ -54,7 +53,7 @@ func Encrypt(plaintext string, secret string) (string, error) {
 	return base64.StdEncoding.EncodeToString(ciphertext), nil
 }
 
-func Decrypt(ciphertextBase64 string) (string, error) {
+func Decrypt(ciphertextBase64, secret string) (string, error) {
 	// Decode the base64-encoded ciphertext
 	ciphertext, err := base64.StdEncoding.DecodeString(ciphertextBase64)
 	if err != nil {
@@ -62,7 +61,7 @@ func Decrypt(ciphertextBase64 string) (string, error) {
 	}
 
 	// Hash the API token to create a 32-byte key
-	hash := sha256.Sum256([]byte(config.Envs.ApiToken))
+	hash := sha256.Sum256([]byte(secret))
 	key := hash[:]
 
 	// Create a new AES cipher with the key
