@@ -1,4 +1,4 @@
-include .env
+include ./app/.env
 
 DATABASE=${DB_DRIVER}://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}?sslmode=disable
 
