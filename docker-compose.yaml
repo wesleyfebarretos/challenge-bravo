@@ -45,11 +45,11 @@ services:
     image: challenge-bravo
     container_name: app
     build:
-      context: .
+      context: ./app
       target: dev
     volumes:
       - type: bind
-        source: ./app
+        source: .
         target: /app/
     init: true
     depends_on:
