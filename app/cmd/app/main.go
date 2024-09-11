@@ -3,12 +3,22 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
+	"path"
+	"runtime"
 
 	"github.com/joho/godotenv"
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/config"
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/infra/db"
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/route"
 )
+
+func init() {
+	// Set root dir
+	_, filename, _, _ := runtime.Caller(0)
+	dir := path.Join(path.Dir(filename), "../../")
+	os.Chdir(dir)
+}
 
 func main() {
 	if err := godotenv.Load(".env"); err != nil {
