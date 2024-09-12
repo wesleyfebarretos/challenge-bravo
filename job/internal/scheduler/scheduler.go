@@ -18,9 +18,17 @@ type Task struct {
 	NextRun time.Time    `json:"next_run"`
 }
 
+type AvailableTask struct {
+	ID      cron.EntryID `json:"-"`
+	Name    string       `json:"name"`
+	Removed bool         `json:"removed"`
+	LastRun *time.Time   `json:"last_run"`
+}
+
 type Scheduler struct {
-	cron  *cron.Cron
-	tasks []Task
+	cron           *cron.Cron
+	tasks          []Task
+	availableTasks []AvailableTask
 }
 
 var scheduler *Scheduler
@@ -28,7 +36,9 @@ var scheduler *Scheduler
 func New() *Scheduler {
 	once.Do(func() {
 		scheduler = &Scheduler{
-			cron: cron.New(),
+			cron:           cron.New(),
+			tasks:          []Task{},
+			availableTasks: []AvailableTask{},
 		}
 	})
 
