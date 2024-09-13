@@ -17,6 +17,7 @@ type DBConn interface {
 	Query(context.Context, string, ...any) (pgx.Rows, error)
 	QueryRow(context.Context, string, ...any) pgx.Row
 	Close()
+	Begin(ctx context.Context) (pgx.Tx, error)
 }
 
 var (

@@ -17,3 +17,22 @@ rebuild:
 	@docker compose down --volumes
 	@docker compose build
 	@docker compose up -d
+
+# Migrations
+create-table:
+	@migrate create -ext=sql -dir=./app/internal/migration -seq $(shell echo $(filter-out $@,$(MAKECMDGOALS))_table)
+
+create-seed:
+	@migrate create -ext sql -dir ./app/internal/migration -seq $(shell echo $(filter-out $@,$(MAKECMDGOALS))_seeder)
+
+create-view:
+	@migrate create -ext sql -dir ./app/internal/migration -seq $(shell echo $(filter-out $@,$(MAKECMDGOALS))_view)
+
+create-schema:
+	@migrate create -ext sql -dir ./app/internal/migration -seq $(shell echo $(filter-out $@,$(MAKECMDGOALS))_schema)
+
+migrations-up:
+	@migrate -path ./app/internal/migration -database $(DATABASE) -verbose up
+
+migrations-down:
+	@migrate -path ./app/internal/migration -database $(DATABASE) -verbose down -all
