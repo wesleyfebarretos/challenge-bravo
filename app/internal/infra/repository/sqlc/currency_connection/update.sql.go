@@ -20,26 +20,28 @@ SET
     country = $5,
     country_code = $6,
     search_url = $7,
-    usd_exchange_rate = $8,
-    fic = $9,
-    updated_by = $10,
-    updated_at = $11
+    response_path_to_rate = $8,
+    usd_exchange_rate = $9,
+    fic = $10,
+    updated_by = $11,
+    updated_at = $12
 WHERE
     id = $1
 `
 
 type UpdateParams struct {
-	ID              int       `json:"id"`
-	Name            string    `json:"name"`
-	Code            string    `json:"code"`
-	Number          *int      `json:"number"`
-	Country         *string   `json:"country"`
-	CountryCode     *string   `json:"country_code"`
-	SearchUrl       *string   `json:"search_url"`
-	UsdExchangeRate float64   `json:"usd_exchange_rate"`
-	Fic             bool      `json:"fic"`
-	UpdatedBy       *int      `json:"updated_by"`
-	UpdatedAt       time.Time `json:"updated_at"`
+	ID                 int       `json:"id"`
+	Name               string    `json:"name"`
+	Code               string    `json:"code"`
+	Number             *int      `json:"number"`
+	Country            *string   `json:"country"`
+	CountryCode        *string   `json:"country_code"`
+	SearchUrl          *string   `json:"search_url"`
+	ResponsePathToRate *string   `json:"response_path_to_rate"`
+	UsdExchangeRate    float64   `json:"usd_exchange_rate"`
+	Fic                bool      `json:"fic"`
+	UpdatedBy          *int      `json:"updated_by"`
+	UpdatedAt          time.Time `json:"updated_at"`
 }
 
 func (q *Queries) Update(ctx context.Context, arg UpdateParams) error {
@@ -51,6 +53,7 @@ func (q *Queries) Update(ctx context.Context, arg UpdateParams) error {
 		arg.Country,
 		arg.CountryCode,
 		arg.SearchUrl,
+		arg.ResponsePathToRate,
 		arg.UsdExchangeRate,
 		arg.Fic,
 		arg.UpdatedBy,

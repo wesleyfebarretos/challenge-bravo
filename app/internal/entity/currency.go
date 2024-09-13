@@ -8,19 +8,20 @@ import (
 )
 
 type Currency struct {
-	CreatedAt       time.Time `json:"created_at,omitempty"`
-	UpdatedAt       time.Time `json:"updated_at,omitempty"`
-	CountryCode     *string   `json:"country_code,omitempty"`
-	Number          *int      `json:"number,omitempty"`
-	SearchURL       *string   `json:"search_url,omitempty"`
-	Fic             *bool     `json:"fic,omitempty"`
-	Country         *string   `json:"country,omitempty"`
-	Name            string
-	Code            string
-	USDExchangeRate float64
-	ID              int
-	CreatedBy       int
-	UpdatedBy       int
+	CreatedAt          time.Time `json:"created_at,omitempty"`
+	UpdatedAt          time.Time `json:"updated_at,omitempty"`
+	CountryCode        *string   `json:"country_code,omitempty"`
+	Number             *int      `json:"number,omitempty"`
+	SearchURL          *string   `json:"search_url,omitempty"`
+	ResponsePathToRate *string   `json:"response_path_to_rate"`
+	Fic                *bool     `json:"fic,omitempty"`
+	Country            *string   `json:"country,omitempty"`
+	Name               string
+	Code               string
+	USDExchangeRate    float64
+	ID                 int
+	CreatedBy          int
+	UpdatedBy          int
 }
 
 type CurrencyRepository interface {

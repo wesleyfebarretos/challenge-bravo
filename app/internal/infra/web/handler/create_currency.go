@@ -17,42 +17,45 @@ type CreateCurrencyHandler struct {
 }
 
 type CreateCurrencyRequest struct {
-	CountryCode     *string `json:"country_code,omitempty" example:"USA"`
-	Number          *int    `json:"number,omitempty" example:"840"`
-	SearchURL       *string `json:"search_url,omitempty" example:"http://usd-exchange.com"`
-	Fic             *bool   `json:"fic,omitempty" example:"false"`
-	Country         *string `json:"country,omitempty" example:"United States"`
-	Name            string  `json:"name" example:"Dollar"`
-	Code            string  `json:"code" example:"USD"`
-	USDExchangeRate float64 `json:"usd_exchange_rate" example:"1"`
+	CountryCode        *string `json:"country_code,omitempty" example:"USA"`
+	Number             *int    `json:"number,omitempty" example:"840"`
+	SearchURL          *string `json:"search_url,omitempty" example:"http://usd-exchange.com"`
+	ResponsePathToRate *string `json:"response_path_to_rate" example:"bpi;USD;rate_float"`
+	Fic                *bool   `json:"fic,omitempty" example:"false"`
+	Country            *string `json:"country,omitempty" example:"United States"`
+	Name               string  `json:"name" example:"Dollar"`
+	Code               string  `json:"code" example:"USD"`
+	USDExchangeRate    float64 `json:"usd_exchange_rate" example:"1"`
 }
 
 type CreateCurrencyResponse struct {
-	ID              int       `json:"id" example:"1"`
-	CreatedAt       time.Time `json:"created_at" example:"2024-09-05 02:28:41.425 -0300"`
-	UpdatedAt       time.Time `json:"updated_at" example:"2024-09-05 02:28:41.425 -0300"`
-	CreatedBy       int       `json:"created_by" example:"1"`
-	UpdatedBy       int       `json:"updated_by" example:"1"`
-	CountryCode     *string   `json:"country_code" example:"USA"`
-	Number          *int      `json:"number" example:"840"`
-	SearchURL       *string   `json:"search_url" example:"http://usd-exchange.com"`
-	Fic             *bool     `json:"fic" example:"false"`
-	Country         *string   `json:"country" example:"United States"`
-	Name            string    `json:"name" example:"Dollar"`
-	Code            string    `json:"code" example:"USD"`
-	USDExchangeRate float64   `json:"usd_exchange_rate" example:"1"`
+	ID                 int       `json:"id" example:"1"`
+	CreatedAt          time.Time `json:"created_at" example:"2024-09-05 02:28:41.425 -0300"`
+	UpdatedAt          time.Time `json:"updated_at" example:"2024-09-05 02:28:41.425 -0300"`
+	CreatedBy          int       `json:"created_by" example:"1"`
+	UpdatedBy          int       `json:"updated_by" example:"1"`
+	CountryCode        *string   `json:"country_code" example:"USA"`
+	Number             *int      `json:"number" example:"840"`
+	SearchURL          *string   `json:"search_url" example:"http://usd-exchange.com"`
+	Fic                *bool     `json:"fic" example:"false"`
+	ResponsePathToRate *string   `json:"response_path_to_rate" example:"bpi;USD;rate_float"`
+	Country            *string   `json:"country" example:"United States"`
+	Name               string    `json:"name" example:"Dollar"`
+	Code               string    `json:"code" example:"USD"`
+	USDExchangeRate    float64   `json:"usd_exchange_rate" example:"1"`
 }
 
 func (c CreateCurrencyRequest) MapToDomain() entity.Currency {
 	return entity.Currency{
-		CountryCode:     c.CountryCode,
-		Number:          c.Number,
-		SearchURL:       c.SearchURL,
-		Fic:             c.Fic,
-		Country:         c.Country,
-		Name:            c.Name,
-		Code:            c.Code,
-		USDExchangeRate: c.USDExchangeRate,
+		CountryCode:        c.CountryCode,
+		Number:             c.Number,
+		SearchURL:          c.SearchURL,
+		Fic:                c.Fic,
+		Country:            c.Country,
+		Name:               c.Name,
+		Code:               c.Code,
+		USDExchangeRate:    c.USDExchangeRate,
+		ResponsePathToRate: c.ResponsePathToRate,
 	}
 }
 
@@ -79,19 +82,20 @@ func (h CreateCurrencyRequest) Valid() error {
 
 func (h CreateCurrencyResponse) MapToResponse(u entity.Currency) CreateCurrencyResponse {
 	return CreateCurrencyResponse{
-		ID:              u.ID,
-		CreatedAt:       u.CreatedAt,
-		UpdatedAt:       u.UpdatedAt,
-		CreatedBy:       u.CreatedBy,
-		UpdatedBy:       u.UpdatedBy,
-		CountryCode:     u.CountryCode,
-		Number:          u.Number,
-		SearchURL:       u.SearchURL,
-		Fic:             u.Fic,
-		Country:         u.Country,
-		Name:            u.Name,
-		Code:            u.Code,
-		USDExchangeRate: u.USDExchangeRate,
+		ID:                 u.ID,
+		CreatedAt:          u.CreatedAt,
+		UpdatedAt:          u.UpdatedAt,
+		CreatedBy:          u.CreatedBy,
+		UpdatedBy:          u.UpdatedBy,
+		CountryCode:        u.CountryCode,
+		Number:             u.Number,
+		SearchURL:          u.SearchURL,
+		Fic:                u.Fic,
+		Country:            u.Country,
+		Name:               u.Name,
+		Code:               u.Code,
+		USDExchangeRate:    u.USDExchangeRate,
+		ResponsePathToRate: u.ResponsePathToRate,
 	}
 }
 

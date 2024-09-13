@@ -10,7 +10,7 @@ import (
 )
 
 const findAll = `-- name: FindAll :many
-SELECT id, name, code, number, country, country_code, search_url, usd_exchange_rate, fic, created_by, updated_by, created_at, updated_at FROM currency ORDER BY id
+SELECT id, name, code, number, country, country_code, usd_exchange_rate, search_url, response_path_to_rate, fic, created_by, updated_by, created_at, updated_at FROM currency ORDER BY id
 `
 
 func (q *Queries) FindAll(ctx context.Context) ([]Currency, error) {
@@ -29,8 +29,9 @@ func (q *Queries) FindAll(ctx context.Context) ([]Currency, error) {
 			&i.Number,
 			&i.Country,
 			&i.CountryCode,
-			&i.SearchUrl,
 			&i.UsdExchangeRate,
+			&i.SearchUrl,
+			&i.ResponsePathToRate,
 			&i.Fic,
 			&i.CreatedBy,
 			&i.UpdatedBy,

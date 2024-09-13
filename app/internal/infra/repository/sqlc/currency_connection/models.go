@@ -9,17 +9,18 @@ import (
 )
 
 type Currency struct {
-	ID              int       `json:"id"`
-	Name            string    `json:"name"`
-	Code            string    `json:"code"`
-	Number          *int      `json:"number"`
-	Country         *string   `json:"country"`
-	CountryCode     *string   `json:"country_code"`
-	SearchUrl       *string   `json:"search_url"`
-	UsdExchangeRate float64   `json:"usd_exchange_rate"`
-	Fic             bool      `json:"fic"`
-	CreatedBy       int       `json:"created_by"`
-	UpdatedBy       *int      `json:"updated_by"`
-	CreatedAt       time.Time `json:"created_at"`
-	UpdatedAt       time.Time `json:"updated_at"`
+	ID                 int       `json:"id"`
+	Name               string    `json:"name"`
+	Code               string    `json:"code"`
+	Number             *int      `json:"number"`
+	Country            *string   `json:"country"`
+	CountryCode        *string   `json:"country_code"`
+	UsdExchangeRate    float64   `json:"usd_exchange_rate"`
+	SearchUrl          *string   `json:"search_url"`
+	ResponsePathToRate *string   `json:"response_path_to_rate"`
+	Fic                bool      `json:"fic"`
+	CreatedBy          int       `json:"created_by"`
+	UpdatedBy          *int      `json:"updated_by"`
+	CreatedAt          time.Time `json:"created_at"`
+	UpdatedAt          time.Time `json:"updated_at"`
 }
