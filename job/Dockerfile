@@ -20,7 +20,7 @@ RUN go install github.com/air-verse/air@latest
 
 COPY . .
 
-CMD ["air", "-c", "./app/.air.toml"]
+CMD ["air", "-c", "./job/.air.toml"]
 
 FROM build-base AS build-production
 
@@ -34,7 +34,7 @@ COPY . .
 RUN go build \
   -ldflags="-linkmode external -extldflags -static" \
   -tags netgo \
-  -o main ./cmd/app/main.go
+  -o main ./cmd/main.go
 
 # Use separate stage for deployable image
 FROM scratch

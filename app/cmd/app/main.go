@@ -16,7 +16,7 @@ import (
 func init() {
 	// Set root dir
 	_, filename, _, _ := runtime.Caller(0)
-	dir := path.Join(path.Dir(filename), "../../")
+	dir := path.Join(path.Dir(filename), "../..")
 	os.Chdir(dir)
 }
 
