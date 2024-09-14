@@ -32,7 +32,7 @@ services:
     image: redis:latest
     environment:
       - REDIS_PASSWORD=root
-    command: ["redis-server", "--requirepass", "your_redis_password"]
+    command: ["redis-server", "--requirepass", "root"]
     volumes:
       - redisdata:/data
     ports:

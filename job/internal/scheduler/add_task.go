@@ -13,7 +13,7 @@ func (s *Scheduler) AddTask(name, spec string, fn func()) error {
 	s.tasks = append(s.tasks, Task{
 		ID:      taskID,
 		Name:    name,
-		PrevRun: task.Prev,
+		PrevRun: &task.Prev,
 		NextRun: task.Next,
 	})
 

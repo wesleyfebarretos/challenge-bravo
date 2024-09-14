@@ -32,7 +32,7 @@ func (s *Scheduler) RemoveTask(taskID cron.EntryID) {
 		return e.Name == s.tasks[index].Name
 	})
 
-	s.availableTasks[availableTaskIndex].LastRun = &tasks[taskIndex].PrevRun
+	s.availableTasks[availableTaskIndex].LastRun = tasks[taskIndex].PrevRun
 	s.availableTasks[availableTaskIndex].Removed = true
 
 	s.tasks = slices.Delete(s.tasks, index, index+1)

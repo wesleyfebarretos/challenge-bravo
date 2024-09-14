@@ -32,12 +32,12 @@ type RedisConfig struct {
 }
 
 type Config struct {
+	Redis    RedisConfig
 	ApiToken string
 	AppEnv   string
 	Port     string
 	DB       DBConfig
 	Jwt      JWT
-	Redis    RedisConfig
 }
 
 var (

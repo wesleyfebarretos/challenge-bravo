@@ -13,11 +13,11 @@ func Get[T any](ctx context.Context, key string, bind *T) (bool, error) {
 		return false, err
 	}
 	if err != nil {
-		return true, err
+		return false, err
 	}
 
 	if err := json.Unmarshal([]byte(result), bind); err != nil {
-		return true, err
+		return false, err
 	}
 
 	return true, err

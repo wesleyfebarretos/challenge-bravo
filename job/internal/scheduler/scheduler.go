@@ -14,7 +14,7 @@ var (
 type Task struct {
 	ID      cron.EntryID `json:"id"`
 	Name    string       `json:"name"`
-	PrevRun time.Time    `json:"prev_run"`
+	PrevRun *time.Time   `json:"prev_run"`
 	NextRun time.Time    `json:"next_run"`
 }
 

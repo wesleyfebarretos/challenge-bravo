@@ -1,10 +1,8 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"path"
 	"runtime"
@@ -12,10 +10,10 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/config"
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/infra/db"
-	"github.com/wesleyfebarretos/challenge-bravo/job/internal/infra/service"
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/route"
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/scheduler"
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/task"
+	aredis "github.com/wesleyfebarretos/challenge-bravo/pkg/redis"
 )
 
 func init() {
@@ -38,20 +36,16 @@ func main() {
 
 	defer db.Conn.Close()
 
+	err := aredis.Init(config.Envs.Redis.HostAndPort, config.Envs.Redis.Password)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	scheduler := scheduler.New()
 
-	task.NewCurrencyUpdater().Start()
+	task.NewCurrencyUpdater().AddToScheduler()
 
 	scheduler.Start()
-
-	currencies, err := service.NewCurrencyUpdaterService(http.Client{}).GetCurrenciesExchangeRatesInUSD(context.Background())
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = service.NewCurrencyUpdaterService(http.Client{}).UpdateRates(context.Background(), currencies)
-	if err != nil {
-		fmt.Print(err)
-	}
 
 	routes := route.Init()
 

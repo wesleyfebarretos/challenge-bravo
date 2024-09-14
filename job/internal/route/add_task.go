@@ -41,7 +41,7 @@ func handleAddTask(router *gin.RouterGroup) {
 
 		switch body.Name {
 		case enum.CurrencyUpdaterTask:
-			task.NewCurrencyUpdater().Start()
+			task.NewCurrencyUpdater().AddToScheduler()
 		default:
 			c.JSON(http.StatusBadRequest, gin.H{
 				"code":    http.StatusBadRequest,
