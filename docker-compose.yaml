@@ -73,6 +73,7 @@ services:
         target: /app/
     init: true
     depends_on:
+      - app
       - postgres
       - redis
     networks:

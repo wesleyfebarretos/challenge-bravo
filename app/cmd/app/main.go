@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -35,6 +36,12 @@ func main() {
 
 	if err := db.Init(); err != nil {
 		log.Fatalf("db connection error %v", err)
+	}
+
+	ctx := context.Background()
+
+	if err = db.RunMigrations(ctx); err != nil {
+		log.Fatalf("setup migrations error %v", err)
 	}
 
 	defer db.Conn.Close()
