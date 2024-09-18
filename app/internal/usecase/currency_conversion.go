@@ -6,6 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/exception"
+	"github.com/wesleyfebarretos/challenge-bravo/pkg/cache_keys"
+	aredis "github.com/wesleyfebarretos/challenge-bravo/pkg/redis"
 	"github.com/wesleyfebarretos/challenge-bravo/pkg/utils"
 )
 
@@ -20,14 +22,9 @@ func (u CurrencyConversionUseCase) Execute(c *gin.Context, from, to string, amou
 	from = strings.ToUpper(from)
 	to = strings.ToUpper(to)
 
-	currencyRateMap := map[string]float64{
-		"USD": 1,
-		"BRL": 0.18,
-	}
+	currencyRateMap := map[string]float64{}
 
-	//  TODO: After cache implementation need to access hashmap in cache ang get the currencies rates
-	//  from there. maybe will be necessary to save the hashmap in cash with the convertion already calculated
-	//  to improve performance
+	aredis.Get(c, cache_keys.CURRENCIES_RATE_MAP, &currencyRateMap)
 
 	fromBaseRate, ok := currencyRateMap[from]
 	if !ok {

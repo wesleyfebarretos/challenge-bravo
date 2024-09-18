@@ -11,6 +11,7 @@ import (
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/config"
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/infra/db"
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/route"
+	aredis "github.com/wesleyfebarretos/challenge-bravo/pkg/redis"
 )
 
 func init() {
@@ -26,6 +27,11 @@ func main() {
 	}
 
 	config.Init()
+
+	err := aredis.Init(config.Envs.Redis.HostAndPort, config.Envs.Redis.Password)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	if err := db.Init(); err != nil {
 		log.Fatalf("db connection error %v", err)

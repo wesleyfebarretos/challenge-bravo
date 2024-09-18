@@ -11,8 +11,6 @@ import (
 func handleCurrency(router *gin.RouterGroup) {
 	currencyRoute := router.Group("currency")
 
-	currencyRoute.Use(middleware.Jwt)
-
 	repository := currency_repository.New()
 
 	createCurrencyHandler := handler.NewCreateCurrencyHandler(usecase.NewCreateCurrencyUseCase(repository))
@@ -23,11 +21,14 @@ func handleCurrency(router *gin.RouterGroup) {
 	FindAllCurrencyHandler := handler.NewFindAllCurrencyHandler(usecase.NewFindAllCurrencyUseCase(repository))
 	currencyConversionHandler := handler.NewCurrencyConversionHandler(usecase.NewCurrencyConversionUseCase())
 
+	currencyRoute.GET("", FindAllCurrencyHandler.Execute)
+	currencyRoute.GET("convert", currencyConversionHandler.Execute)
+
+	currencyRoute.Use(middleware.Jwt)
+
 	currencyRoute.POST("", createCurrencyHandler.Execute)
 	currencyRoute.PUT(":id", updateCurrencyHandler.Execute)
 	currencyRoute.DELETE(":id", deleteCurrencyHandler.Execute)
-	currencyRoute.GET("", FindAllCurrencyHandler.Execute)
 	currencyRoute.GET(":id", FindCurrencyByIdHandler.Execute)
 	currencyRoute.GET("/code/:code", FindCurrencyByCodeHandler.Execute)
-	currencyRoute.GET("convert", currencyConversionHandler.Execute)
 }
