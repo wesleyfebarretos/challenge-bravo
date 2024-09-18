@@ -9,11 +9,11 @@ import (
 )
 
 func handleListAvailableTasks(router *gin.RouterGroup) {
-	listTaskRoute := router.Group("")
+	listAvailableTasksRoute := router.Group("")
 
-	listTaskRoute.Use(middleware.Jwt)
+	listAvailableTasksRoute.Use(middleware.Jwt)
 
-	listTaskRoute.GET("available-tasks", func(c *gin.Context) {
+	listAvailableTasksRoute.GET("available-tasks", func(c *gin.Context) {
 		scheduler := scheduler.New()
 
 		c.JSON(http.StatusOK, scheduler.GetAllAvailableTasks())

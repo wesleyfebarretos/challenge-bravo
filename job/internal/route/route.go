@@ -13,6 +13,7 @@ func Init() *gin.Engine {
 	handleRemoveTask(v1)
 	handleListAvailableTasks(v1)
 	handleAddTask(v1)
+	handleRunTask(v1)
 
 	return router
 }

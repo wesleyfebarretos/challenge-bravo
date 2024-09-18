@@ -12,6 +12,7 @@ import (
 
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/infra/db"
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/types"
+	"github.com/wesleyfebarretos/challenge-bravo/pkg/utils"
 )
 
 type CurrencyUpdaterService struct {
@@ -83,7 +84,8 @@ func (c CurrencyUpdaterService) getExchangeRatesInUSD(ctx context.Context) ([]*t
 	for _, v := range currencies {
 		rate, ok := usdExchangeRatesMap[v.Code]
 		if ok {
-			v.USDExchangeRate = rate.(float64)
+			value := 1 / rate.(float64)
+			v.USDExchangeRate = utils.RoundFloat(value, 2)
 
 			updatedCurrencies = append(updatedCurrencies, v)
 

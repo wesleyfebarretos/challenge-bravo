@@ -9,16 +9,16 @@ import (
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/task"
 )
 
-type AddTaskRequest struct {
+type RunTaskRequest struct {
 	Name string `json:"name"`
 }
 
-func handleAddTask(router *gin.RouterGroup) {
-	addTaskRoute := router.Group("")
+func handleRunTask(router *gin.RouterGroup) {
+	runTaskRoute := router.Group("")
 
-	addTaskRoute.Use(middleware.Jwt)
+	runTaskRoute.Use(middleware.Jwt)
 
-	addTaskRoute.POST("tasks", func(c *gin.Context) {
+	runTaskRoute.POST("tasks/run", func(c *gin.Context) {
 		body := AddTaskRequest{}
 
 		err := c.ShouldBindJSON(&body)
@@ -41,7 +41,15 @@ func handleAddTask(router *gin.RouterGroup) {
 
 		switch body.Name {
 		case enum.CurrencyUpdaterTask:
-			task.NewCurrencyUpdater().AddToScheduler()
+			if err := task.NewCurrencyUpdater().Run(c); err != nil {
+
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"code":    http.StatusBadRequest,
+					"message": err.Error(),
+				})
+				return
+
+			}
 		default:
 			c.JSON(http.StatusBadRequest, gin.H{
 				"code":    http.StatusBadRequest,
