@@ -73,7 +73,7 @@ func Init() {
 				Name:        getEnv("DB_NAME", "challenge_bravo"),
 				Host:        getEnv("DB_HOST", "challenge-bravo"),
 				Address:     fmt.Sprintf("%s:%s", getEnv("DB_HOST", "127.0.0.1"), getEnv("DB_PORT", "5432")),
-				PoolMaxConn: getEnvAsInt("DB_POOL_MAX_CONNECTION", 10),
+				PoolMaxConn: getEnvAsInt("DB_POOL_MAX_CONNECTION", 50),
 			},
 			Jwt: JWT{
 				Secret:           getEnv("API_TOKEN", "ToYaaRUiza7cYAMzD+Pk2ha9N2Xn3rwMpuhd2JVEQ/Usdbte6kFaIOoIWm6qXgOXt0qYZo3uHTvecySPo4p5zQ=="),
