@@ -2,8 +2,8 @@ package db
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
@@ -22,7 +22,7 @@ func RunMigrations(ctx context.Context) error {
 		config.Envs.DB.Name,
 	)
 
-	migrate, err := migrate.New(
+	migrations, err := migrate.New(
 		"file://internal/migration",
 		connString,
 	)
@@ -30,11 +30,12 @@ func RunMigrations(ctx context.Context) error {
 		return err
 	}
 
-	if err = migrate.Up(); err != nil && !strings.Contains(err.Error(), "no change") {
+	if err = migrations.Up(); err != nil && !errors.Is(err, migrate.ErrNoChange) {
+
 		return err
 	}
 
-	if _, err := migrate.Close(); err != nil {
+	if _, err := migrations.Close(); err != nil {
 		return err
 	}
 
