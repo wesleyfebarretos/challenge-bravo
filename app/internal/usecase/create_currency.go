@@ -6,6 +6,8 @@ import (
 
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/entity"
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/exception"
+	"github.com/wesleyfebarretos/challenge-bravo/pkg/cache_keys"
+	aredis "github.com/wesleyfebarretos/challenge-bravo/pkg/redis"
 )
 
 type CreateCurrencyUseCase struct {
@@ -27,6 +29,14 @@ func (u CreateCurrencyUseCase) Execute(c context.Context, p entity.Currency, use
 	if err != nil {
 		panic(exception.InternalServer(err.Error()))
 	}
+
+	currencyRateMap := map[string]float64{}
+
+	aredis.Get(c, cache_keys.CURRENCIES_RATE_MAP, &currencyRateMap)
+
+	currencyRateMap[p.Code] = p.USDExchangeRate
+
+	aredis.Set(c, cache_keys.CURRENCIES_RATE_MAP, currencyRateMap, 0)
 
 	return currency
 }
