@@ -27,7 +27,7 @@ func (u UserRepository) WithTx(tx pgx.Tx) entity.UserRepository {
 func New() entity.UserRepository {
 	once.Do(func() {
 		repository = &UserRepository{
-			queries: user_connection.New(db.Conn),
+			queries: user_connection.New(db.GetConnection()),
 		}
 	})
 	return repository

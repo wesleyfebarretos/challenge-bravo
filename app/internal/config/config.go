@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/rs/zerolog"
+	"github.com/wesleyfebarretos/challenge-bravo/app/internal/enum"
 )
 
 type DBConfig struct {
@@ -26,13 +27,13 @@ type JWT struct {
 }
 
 type LogConfig struct {
-	LogLevel   int
+	Output     *os.File
 	Filename   string
+	LogLevel   int
 	MaxSize    int
 	MaxBackups int
 	MaxAge     int
 	Compress   bool
-	Output     *os.File
 }
 
 type RedisConfig struct {
@@ -44,13 +45,13 @@ type RedisConfig struct {
 }
 
 type Config struct {
-	Log      LogConfig
+	Redis    RedisConfig
 	ApiToken string
 	AppEnv   string
 	Port     string
 	DB       DBConfig
 	Jwt      JWT
-	Redis    RedisConfig
+	Log      LogConfig
 }
 
 var (
@@ -62,7 +63,7 @@ func Init() {
 	initOnce.Do(func() {
 		Envs = Config{
 			ApiToken: getEnv("API_TOKEN", "ToYaaRUiza7cYAMzD+Pk2ha9N2Xn3rwMpuhd2JVEQ/Usdbte6kFaIOoIWm6qXgOXt0qYZo3uHTvecySPo4p5zQ=="),
-			AppEnv:   getEnv("APP_ENV", "development"),
+			AppEnv:   getEnv("APP_ENV", enum.DEVELOPMENT_ENVIROMENT),
 			Port:     getEnv("PORT", "8080"),
 			DB: DBConfig{
 				Driver:      getEnv("DB_DRIVER", "postgres"),

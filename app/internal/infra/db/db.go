@@ -16,11 +16,11 @@ type DBConn interface {
 	Exec(context.Context, string, ...any) (pgconn.CommandTag, error)
 	Query(context.Context, string, ...any) (pgx.Rows, error)
 	QueryRow(context.Context, string, ...any) pgx.Row
-	Close()
+	Begin(context.Context) (pgx.Tx, error)
 }
 
 var (
-	Conn     DBConn
+	conn     DBConn
 	initOnce sync.Once
 )
 
@@ -36,7 +36,7 @@ func openConnection(connector string) error {
 	if err != nil {
 		return err
 	}
-	Conn = insideConn
+	conn = insideConn
 
 	return nil
 }
@@ -50,37 +50,39 @@ func getStringConnection() string {
 		config.Envs.DB.Name)
 }
 
-func Init() error {
+func healthCheck() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
+	// Simple query to check database connectivity
+	row := conn.QueryRow(ctx, "SELECT 1")
+	var result int
+	if err := row.Scan(&result); err != nil {
+		return fmt.Errorf("database health check failed: %w", err)
+	}
+	return nil
+}
+
+func Init() (*pgxpool.Pool, error) {
 	var err error
 	initOnce.Do(func() {
 		conn := getStringConnection()
 		_err := openConnection(conn)
 		if _err != nil {
 			err = _err
+			return
+		}
+
+		err = healthCheck()
+		if err != nil {
+			err = _err
+			return
 		}
 	})
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	err = healthCheck()
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func healthCheck() error {
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-	defer cancel()
-
-	// Simple query to check database connectivity
-	row := Conn.QueryRow(ctx, "SELECT 1")
-	var result int
-	if err := row.Scan(&result); err != nil {
-		return fmt.Errorf("database health check failed: %w", err)
-	}
-	return nil
+	return conn.(*pgxpool.Pool), nil
 }

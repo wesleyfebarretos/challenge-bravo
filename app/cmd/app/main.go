@@ -34,17 +34,18 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if err := db.Init(); err != nil {
+	conn, err := db.Init()
+	if err != nil {
 		log.Fatalf("db connection error %v", err)
 	}
+
+	defer conn.Close()
 
 	ctx := context.Background()
 
 	if err = db.RunMigrations(ctx); err != nil {
 		log.Fatalf("setup migrations error %v", err)
 	}
-
-	defer db.Conn.Close()
 
 	routes := route.Init()
 

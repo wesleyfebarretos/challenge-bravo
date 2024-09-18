@@ -27,7 +27,7 @@ func (u CurrencyRepository) WithTx(tx pgx.Tx) entity.CurrencyRepository {
 func New() entity.CurrencyRepository {
 	once.Do(func() {
 		repository = &CurrencyRepository{
-			queries: currency_connection.New(db.Conn),
+			queries: currency_connection.New(db.GetConnection()),
 		}
 	})
 	return repository
