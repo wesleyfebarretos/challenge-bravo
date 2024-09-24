@@ -33,8 +33,8 @@ func (t *testTxWrapper) Close(ctx context.Context) {
 }
 
 func BeginTestTxWrapper(ctx context.Context) {
-	fmt.Println("connection", Conn)
-	tx, err := Conn.Begin(ctx)
+	fmt.Println("connection", conn)
+	tx, err := conn.Begin(ctx)
 	if err != nil {
 		log.Fatalf("error on opening transaction to test enviroment: %v", err)
 	}
