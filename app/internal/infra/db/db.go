@@ -73,8 +73,8 @@ func Init() (*pgxpool.Pool, error) {
 			return
 		}
 
-		err = healthCheck()
-		if err != nil {
+		_err = healthCheck()
+		if _err != nil {
 			err = _err
 			return
 		}

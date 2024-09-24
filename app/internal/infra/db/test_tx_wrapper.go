@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/jackc/pgx/v5"
@@ -12,13 +13,18 @@ type testTxWrapper struct {
 	closed bool
 }
 
-var TestTxWrapper *testTxWrapper
+var TestTxWrapper = &testTxWrapper{}
 
 func (t *testTxWrapper) IsClosed() bool {
-	return !t.closed
+	return t.closed
 }
 
 func (t *testTxWrapper) Close(ctx context.Context) {
+	if t.tx == nil {
+		t.closed = true
+		return
+	}
+
 	if err := t.tx.Rollback(ctx); err != nil {
 		log.Fatalf("error on closing transaction in test enviroment: %v", err)
 	}
@@ -27,7 +33,8 @@ func (t *testTxWrapper) Close(ctx context.Context) {
 }
 
 func BeginTestTxWrapper(ctx context.Context) {
-	tx, err := conn.Begin(ctx)
+	fmt.Println("connection", Conn)
+	tx, err := Conn.Begin(ctx)
 	if err != nil {
 		log.Fatalf("error on opening transaction to test enviroment: %v", err)
 	}
