@@ -19,6 +19,7 @@ func CreateMapToDB(p entity.Currency) currency_connection.CreateParams {
 		Country:            p.Country,
 		CountryCode:        p.CountryCode,
 		SearchUrl:          p.SearchURL,
+		Fic:                *p.Fic,
 	}
 }
 

@@ -11,10 +11,10 @@ import (
 
 const create = `-- name: Create :one
 INSERT INTO currency
-    (name, code, usd_exchange_rate, created_by, "number", country, country_code, search_url, response_path_to_rate, updated_by)
+    (name, code, usd_exchange_rate, created_by, "number", country, country_code, search_url, response_path_to_rate, updated_by, fic)
 VALUES
-    ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-RETURNING id, name, code, number, country, country_code, usd_exchange_rate, search_url, response_path_to_rate, fic, created_by, updated_by, created_at, updated_at
+    ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, $11)
+RETURNING id, name, code, number, usd_exchange_rate, search_url, response_path_to_rate, country, country_code, fic, created_by, updated_by, created_at, updated_at
 `
 
 type CreateParams struct {
@@ -28,6 +28,7 @@ type CreateParams struct {
 	SearchUrl          *string `json:"search_url"`
 	ResponsePathToRate *string `json:"response_path_to_rate"`
 	UpdatedBy          *int    `json:"updated_by"`
+	Fic                bool    `json:"fic"`
 }
 
 func (q *Queries) Create(ctx context.Context, arg CreateParams) (Currency, error) {
@@ -42,6 +43,7 @@ func (q *Queries) Create(ctx context.Context, arg CreateParams) (Currency, error
 		arg.SearchUrl,
 		arg.ResponsePathToRate,
 		arg.UpdatedBy,
+		arg.Fic,
 	)
 	var i Currency
 	err := row.Scan(
@@ -49,11 +51,11 @@ func (q *Queries) Create(ctx context.Context, arg CreateParams) (Currency, error
 		&i.Name,
 		&i.Code,
 		&i.Number,
-		&i.Country,
-		&i.CountryCode,
 		&i.UsdExchangeRate,
 		&i.SearchUrl,
 		&i.ResponsePathToRate,
+		&i.Country,
+		&i.CountryCode,
 		&i.Fic,
 		&i.CreatedBy,
 		&i.UpdatedBy,

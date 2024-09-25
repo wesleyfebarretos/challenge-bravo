@@ -1,7 +1,6 @@
 package route
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -35,7 +34,7 @@ func handleSignIn(router *gin.RouterGroup) {
 		}
 
 		user := User{}
-		fmt.Println(body)
+
 		err := db.Conn.
 			QueryRow(c, "SELECT id, email, role, password FROM users WHERE email = $1", body.Email).
 			Scan(&user.ID, &user.Email, &user.Role, &user.Password)

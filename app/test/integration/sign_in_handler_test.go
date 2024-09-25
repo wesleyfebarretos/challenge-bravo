@@ -1,15 +1,12 @@
 package integration
 
 import (
-	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/wesleyfebarretos/challenge-bravo/app/internal/infra/repository/user_repository"
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/infra/web/handler"
 	"github.com/wesleyfebarretos/challenge-bravo/app/test/testdata"
 	"github.com/wesleyfebarretos/challenge-bravo/app/test/testutils"
@@ -24,16 +21,10 @@ func TestSignInHandler(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		user2, err := user_repository.New().GetOneByEmail(context.TODO(), user.Email)
-		fmt.Println(user2, err)
-
-		fmt.Println(user)
-
 		signInRequest := handler.SignInRequest{
 			Email:    user.Email,
 			Password: password,
 		}
-		fmt.Println(signInRequest)
 
 		response := testutils.SendRequest(t, http.MethodPost, "auth", signInRequest)
 
