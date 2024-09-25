@@ -8,7 +8,7 @@ import (
 )
 
 func CreateMapToDB(p entity.Currency) currency_connection.CreateParams {
-	return currency_connection.CreateParams{
+	res := currency_connection.CreateParams{
 		Name:               p.Name,
 		Code:               p.Code,
 		UsdExchangeRate:    p.USDExchangeRate,
@@ -19,8 +19,13 @@ func CreateMapToDB(p entity.Currency) currency_connection.CreateParams {
 		Country:            p.Country,
 		CountryCode:        p.CountryCode,
 		SearchUrl:          p.SearchURL,
-		Fic:                *p.Fic,
 	}
+
+	if p.Fic != nil {
+		res.Fic = *p.Fic
+	}
+
+	return res
 }
 
 func CreateMapToEntity(p currency_connection.Currency) entity.Currency {
