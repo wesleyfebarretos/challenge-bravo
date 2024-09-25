@@ -31,14 +31,16 @@ func (u CurrencyRepository) WithTx(tx pgx.Tx) entity.CurrencyRepository {
 }
 
 func New() entity.CurrencyRepository {
-	if config.Envs.AppEnv == enum.TEST_ENVIROMENT && repository != nil {
-		repository.RenewTestTx(db.GetConnection())
-	}
 
 	once.Do(func() {
 		repository = &CurrencyRepository{
 			queries: currency_connection.New(db.GetConnection()),
 		}
 	})
+
+	if config.Envs.AppEnv == enum.TEST_ENVIROMENT {
+		repository.RenewTestTx(db.GetConnection())
+	}
+
 	return repository
 }

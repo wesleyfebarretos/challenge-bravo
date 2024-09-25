@@ -31,15 +31,16 @@ func (u UserRepository) WithTx(tx pgx.Tx) entity.UserRepository {
 }
 
 func New() entity.UserRepository {
-	if config.Envs.AppEnv == enum.TEST_ENVIROMENT && repository != nil {
-		repository.RenewTestTx(db.GetConnection())
-	}
 
 	once.Do(func() {
 		repository = &UserRepository{
 			queries: user_connection.New(db.GetConnection()),
 		}
 	})
+
+	if config.Envs.AppEnv == enum.TEST_ENVIROMENT {
+		repository.RenewTestTx(db.GetConnection())
+	}
 
 	return repository
 }
