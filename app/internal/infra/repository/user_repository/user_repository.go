@@ -13,11 +13,15 @@ import (
 
 var (
 	once       sync.Once
-	repository entity.UserRepository
+	repository *UserRepository
 )
 
 type UserRepository struct {
 	queries *user_connection.Queries
+}
+
+func (u *UserRepository) RenewTestTx(tx db.DBConn) {
+	u.queries = user_connection.New(db.GetConnection())
 }
 
 func (u UserRepository) WithTx(tx pgx.Tx) entity.UserRepository {
@@ -27,11 +31,8 @@ func (u UserRepository) WithTx(tx pgx.Tx) entity.UserRepository {
 }
 
 func New() entity.UserRepository {
-	if config.Envs.AppEnv == enum.TEST_ENVIROMENT {
-		return &UserRepository{
-			queries: user_connection.New(db.GetConnection()),
-		}
-
+	if config.Envs.AppEnv == enum.TEST_ENVIROMENT && repository != nil {
+		repository.RenewTestTx(db.GetConnection())
 	}
 
 	once.Do(func() {
@@ -39,5 +40,6 @@ func New() entity.UserRepository {
 			queries: user_connection.New(db.GetConnection()),
 		}
 	})
+
 	return repository
 }

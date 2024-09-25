@@ -13,11 +13,15 @@ import (
 
 var (
 	once       sync.Once
-	repository entity.CurrencyRepository
+	repository *CurrencyRepository
 )
 
 type CurrencyRepository struct {
 	queries *currency_connection.Queries
+}
+
+func (u *CurrencyRepository) RenewTestTx(tx db.DBConn) {
+	u.queries = currency_connection.New(db.GetConnection())
 }
 
 func (u CurrencyRepository) WithTx(tx pgx.Tx) entity.CurrencyRepository {
@@ -27,11 +31,8 @@ func (u CurrencyRepository) WithTx(tx pgx.Tx) entity.CurrencyRepository {
 }
 
 func New() entity.CurrencyRepository {
-	if config.Envs.AppEnv == enum.TEST_ENVIROMENT {
-		return &CurrencyRepository{
-			queries: currency_connection.New(db.GetConnection()),
-		}
-
+	if config.Envs.AppEnv == enum.TEST_ENVIROMENT && repository != nil {
+		repository.RenewTestTx(db.GetConnection())
 	}
 
 	once.Do(func() {
