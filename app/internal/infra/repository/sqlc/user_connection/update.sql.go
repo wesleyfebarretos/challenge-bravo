@@ -17,7 +17,8 @@ SET
     email = $3,
     first_name = $4,
     last_name = $5,
-    updated_at = $6
+    updated_at = $6,
+    active = $7
 WHERE
     id = $1
 `
@@ -29,6 +30,7 @@ type UpdateParams struct {
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
 	UpdatedAt time.Time `json:"updated_at"`
+	Active    bool      `json:"active"`
 }
 
 func (q *Queries) Update(ctx context.Context, arg UpdateParams) error {
@@ -39,6 +41,7 @@ func (q *Queries) Update(ctx context.Context, arg UpdateParams) error {
 		arg.FirstName,
 		arg.LastName,
 		arg.UpdatedAt,
+		arg.Active,
 	)
 	return err
 }
