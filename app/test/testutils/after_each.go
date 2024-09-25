@@ -1,11 +1,9 @@
-package integration
+package testutils
 
 import (
-	"context"
-
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/infra/db"
 )
 
 func afterEach() {
-	db.TestTxWrapper.Close(context.TODO())
+	db.CloseTestTx()
 }

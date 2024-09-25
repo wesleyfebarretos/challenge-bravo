@@ -1,6 +1,6 @@
-package integration
+package testutils
 
-func afterAll() {
+func AfterAll() {
 	for _, container := range runningContainers {
 		container.Terminate()
 	}

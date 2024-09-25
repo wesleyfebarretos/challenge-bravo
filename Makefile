@@ -36,3 +36,8 @@ migrations-up:
 
 migrations-down:
 	@migrate -path ./app/internal/migration -database $(DATABASE) -verbose down -all
+
+# Tests
+
+app-integration-test:
+	@go test ./app/test/integration/...

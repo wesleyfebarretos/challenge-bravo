@@ -1,6 +1,8 @@
-package integration
+package testutils
 
-import "testing"
+import (
+	"testing"
+)
 
 func RunTest(testFunc func(*testing.T)) func(*testing.T) {
 	return func(t *testing.T) {

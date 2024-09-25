@@ -1,4 +1,4 @@
-package integration
+package testutils
 
 import (
 	"context"
@@ -22,7 +22,7 @@ var (
 	client            = &http.Client{}
 )
 
-func beforeAll() {
+func BeforeAll() {
 	wd, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("error trying to find working dir: %v", err)
@@ -55,8 +55,6 @@ func beforeAll() {
 	if err = db.RunMigrations(context.TODO()); err != nil {
 		log.Fatalf("setup migrations error %v", err)
 	}
-
-	db.BeginTestTxWrapper(context.TODO())
 
 	// Set application to test enviroment
 	config.Envs.AppEnv = enum.TEST_ENVIROMENT

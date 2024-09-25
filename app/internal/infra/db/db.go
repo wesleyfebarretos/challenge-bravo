@@ -22,6 +22,7 @@ type DBConn interface {
 var (
 	conn     DBConn
 	initOnce sync.Once
+	testTx   pgx.Tx
 )
 
 func openConnection(connector string) error {
