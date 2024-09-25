@@ -20,7 +20,7 @@ type CurrencyRepository struct {
 	queries *currency_connection.Queries
 }
 
-func (u *CurrencyRepository) RenewTestTx(tx db.DBConn) {
+func (u *CurrencyRepository) renewTestTx() {
 	u.queries = currency_connection.New(db.GetConnection())
 }
 
@@ -39,7 +39,7 @@ func New() entity.CurrencyRepository {
 	})
 
 	if config.Envs.AppEnv == enum.TEST_ENVIROMENT {
-		repository.RenewTestTx(db.GetConnection())
+		repository.renewTestTx()
 	}
 
 	return repository

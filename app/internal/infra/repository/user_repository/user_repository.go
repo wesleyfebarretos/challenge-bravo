@@ -20,7 +20,7 @@ type UserRepository struct {
 	queries *user_connection.Queries
 }
 
-func (u *UserRepository) RenewTestTx(tx db.DBConn) {
+func (u *UserRepository) renewTestTx() {
 	u.queries = user_connection.New(db.GetConnection())
 }
 
@@ -39,7 +39,7 @@ func New() entity.UserRepository {
 	})
 
 	if config.Envs.AppEnv == enum.TEST_ENVIROMENT {
-		repository.RenewTestTx(db.GetConnection())
+		repository.renewTestTx()
 	}
 
 	return repository
