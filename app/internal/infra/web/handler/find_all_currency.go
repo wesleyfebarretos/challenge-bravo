@@ -53,6 +53,16 @@ func (h FindAllCurrencyResponse) MapToResponse(u []entity.Currency) []FindAllCur
 	return res
 }
 
+// FindAllCurrencies godoc
+//
+//	@Summary		Find All Curriencies
+//	@Description	find all currencies
+//	@Tags			Currencies
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	FindAllCurrencyResponse
+//	@Failure		500	{object}	exception.InternalServerException
+//	@Router			/currency [get]
 func (h FindAllCurrencyHandler) Execute(c *gin.Context) {
 	currency := h.useCase.Execute(c)
 

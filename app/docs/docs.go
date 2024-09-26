@@ -24,6 +24,33 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/currency": {
+            "get": {
+                "description": "find all currencies",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Find All Curriencies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.FindAllCurrencyResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/exception.InternalServerException"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "create a currency",
                 "consumes": [
@@ -429,6 +456,63 @@ const docTemplate = `{
                 "value": {
                     "type": "number",
                     "example": 5.57
+                }
+            }
+        },
+        "handler.FindAllCurrencyResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "USD"
+                },
+                "country": {
+                    "type": "string",
+                    "example": "United States"
+                },
+                "country_code": {
+                    "type": "string",
+                    "example": "USA"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2024-09-05 02:28:41.425 -0300"
+                },
+                "created_by": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "fic": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Dollar"
+                },
+                "number": {
+                    "type": "integer",
+                    "example": 840
+                },
+                "search_url": {
+                    "type": "string",
+                    "example": "http://usd-exchange.com"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2024-09-05 02:28:41.425 -0300"
+                },
+                "updated_by": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "usd_exchange_rate": {
+                    "type": "number",
+                    "example": 1
                 }
             }
         }
