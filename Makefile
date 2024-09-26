@@ -47,7 +47,11 @@ app-integration-test-verbose:
 #  Swagger
 generate-app-swagger-docs:
 	@rm -rf ./app/docs
-	@swag init -g ./app/cmd/app/main.go -o ./app/docs
+	@swag init -g ./app/cmd/app/main.go -o ./app/docs --exclude ./job
+
+generate-job-swagger-docs:
+	@rm -rf ./job/docs
+	@swag init -g ./job/cmd/main.go -o ./job/docs --exclude ./app
 
 format-swagger-configs:
 	@swag fmt
