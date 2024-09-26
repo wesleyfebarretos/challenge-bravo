@@ -54,6 +54,18 @@ func (c CurrencyConversionResponse) MapToResponse(p usecase.CurrencyConversionDT
 	}
 }
 
+// CurrencyConversion godoc
+//
+//	@Summary		Currency Conversion
+//	@Description	convert the value of one currency to another
+//	@Tags			Currencies
+//	@Accept			json
+//	@Produce		json
+//	@Param			currencyQueryParams	query		CurrencyConversionRequest	true	"currency conversion query params"
+//	@Success		200			{object}	CurrencyConversionResponse
+//	@Failure		500			{object}	exception.InternalServerException
+//	@Failure		400			{object}	exception.BadRequestException
+//	@Router			/currency/convert [get]
 func (h CurrencyConversionHandler) Execute(c *gin.Context) {
 	queryParams := CurrencyConversionRequest{}
 

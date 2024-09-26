@@ -7,13 +7,13 @@ import (
 
 func Init() *gin.Engine {
 	router := gin.New()
-	v1 := router.Group("/v1")
-
-	handleSwagger(v1)
 
 	router.Use(middleware.Log)
 	router.Use(gin.CustomRecovery(middleware.ExceptionHandler))
 
+	v1 := router.Group("/v1")
+
+	handleSwagger(v1)
 	handleUser(v1)
 	handleCurrency(v1)
 	handleAuth(v1)

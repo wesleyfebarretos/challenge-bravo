@@ -92,8 +92,9 @@ func (h CreateUserResponse) MapToResponse(u entity.User) CreateUserResponse {
 //	@Accept			json
 //	@Produce		json
 //	@Param			user	body		CreateUserRequest	true	"new user"
-//	@Success		201		{array}		CreateUserResponse
+//	@Success		201		{object}	CreateUserResponse
 //	@Failure		500		{object}	exception.InternalServerException
+//	@Failure		400		{object}	exception.BadRequestException
 //	@Router			/user [post]
 func (h CreateUserHandler) Execute(c *gin.Context) {
 	body := CreateUserRequest{}

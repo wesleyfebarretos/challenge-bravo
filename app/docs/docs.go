@@ -23,6 +23,107 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/currency": {
+            "post": {
+                "description": "create a currency",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Create Currency",
+                "parameters": [
+                    {
+                        "description": "new currency",
+                        "name": "currency",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.CreateCurrencyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handler.CreateCurrencyResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/exception.BadRequestException"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/exception.InternalServerException"
+                        }
+                    }
+                }
+            }
+        },
+        "/currency/convert": {
+            "get": {
+                "description": "convert the value of one currency to another",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Currency Conversion",
+                "parameters": [
+                    {
+                        "type": "number",
+                        "example": 10.2,
+                        "name": "amount",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "usd",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "example": "brl",
+                        "name": "to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.CurrencyConversionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/exception.BadRequestException"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/exception.InternalServerException"
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "post": {
                 "description": "create an user",
@@ -51,10 +152,13 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/handler.CreateUserResponse"
-                            }
+                            "$ref": "#/definitions/handler.CreateUserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/exception.BadRequestException"
                         }
                     },
                     "500": {
@@ -79,6 +183,19 @@ const docTemplate = `{
                 "ADMIN"
             ]
         },
+        "exception.BadRequestException": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 400
+                },
+                "message": {
+                    "type": "string",
+                    "example": "bad request"
+                }
+            }
+        },
         "exception.InternalServerException": {
             "type": "object",
             "properties": {
@@ -88,7 +205,109 @@ const docTemplate = `{
                 },
                 "message": {
                     "type": "string",
-                    "example": "bad request"
+                    "example": "internal server error"
+                }
+            }
+        },
+        "handler.CreateCurrencyRequest": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "USD"
+                },
+                "country": {
+                    "type": "string",
+                    "example": "United States"
+                },
+                "country_code": {
+                    "type": "string",
+                    "example": "USA"
+                },
+                "fic": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Dollar"
+                },
+                "number": {
+                    "type": "integer",
+                    "example": 840
+                },
+                "response_path_to_rate": {
+                    "type": "string",
+                    "example": "bpi;USD;rate_float"
+                },
+                "search_url": {
+                    "type": "string",
+                    "example": "http://usd-exchange.com"
+                },
+                "usd_exchange_rate": {
+                    "type": "number",
+                    "example": 1
+                }
+            }
+        },
+        "handler.CreateCurrencyResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "USD"
+                },
+                "country": {
+                    "type": "string",
+                    "example": "United States"
+                },
+                "country_code": {
+                    "type": "string",
+                    "example": "USA"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2024-09-05 02:28:41.425 -0300"
+                },
+                "created_by": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "fic": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Dollar"
+                },
+                "number": {
+                    "type": "integer",
+                    "example": 840
+                },
+                "response_path_to_rate": {
+                    "type": "string",
+                    "example": "bpi;USD;rate_float"
+                },
+                "search_url": {
+                    "type": "string",
+                    "example": "http://usd-exchange.com"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2024-09-05 02:28:41.425 -0300"
+                },
+                "updated_by": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "usd_exchange_rate": {
+                    "type": "number",
+                    "example": 1
                 }
             }
         },
@@ -159,6 +378,19 @@ const docTemplate = `{
                 "updated_at": {
                     "type": "string",
                     "example": "2024-08-31T14:21:38-03:00"
+                }
+            }
+        },
+        "handler.CurrencyConversionResponse": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string",
+                    "example": "5.57 BRL"
+                },
+                "value": {
+                    "type": "number",
+                    "example": 5.57
                 }
             }
         }

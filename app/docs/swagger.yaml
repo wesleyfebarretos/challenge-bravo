@@ -8,14 +8,98 @@ definitions:
     x-enum-varnames:
     - USER
     - ADMIN
+  exception.BadRequestException:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: bad request
+        type: string
+    type: object
   exception.InternalServerException:
     properties:
       code:
         example: 500
         type: integer
       message:
-        example: bad request
+        example: internal server error
         type: string
+    type: object
+  handler.CreateCurrencyRequest:
+    properties:
+      code:
+        example: USD
+        type: string
+      country:
+        example: United States
+        type: string
+      country_code:
+        example: USA
+        type: string
+      fic:
+        example: false
+        type: boolean
+      name:
+        example: Dollar
+        type: string
+      number:
+        example: 840
+        type: integer
+      response_path_to_rate:
+        example: bpi;USD;rate_float
+        type: string
+      search_url:
+        example: http://usd-exchange.com
+        type: string
+      usd_exchange_rate:
+        example: 1
+        type: number
+    type: object
+  handler.CreateCurrencyResponse:
+    properties:
+      code:
+        example: USD
+        type: string
+      country:
+        example: United States
+        type: string
+      country_code:
+        example: USA
+        type: string
+      created_at:
+        example: 2024-09-05 02:28:41.425 -0300
+        type: string
+      created_by:
+        example: 1
+        type: integer
+      fic:
+        example: false
+        type: boolean
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Dollar
+        type: string
+      number:
+        example: 840
+        type: integer
+      response_path_to_rate:
+        example: bpi;USD;rate_float
+        type: string
+      search_url:
+        example: http://usd-exchange.com
+        type: string
+      updated_at:
+        example: 2024-09-05 02:28:41.425 -0300
+        type: string
+      updated_by:
+        example: 1
+        type: integer
+      usd_exchange_rate:
+        example: 1
+        type: number
     type: object
   handler.CreateUserRequest:
     properties:
@@ -66,6 +150,15 @@ definitions:
         example: "2024-08-31T14:21:38-03:00"
         type: string
     type: object
+  handler.CurrencyConversionResponse:
+    properties:
+      label:
+        example: 5.57 BRL
+        type: string
+      value:
+        example: 5.57
+        type: number
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -79,6 +172,72 @@ info:
   title: Challenge Bravo
   version: "1.0"
 paths:
+  /currency:
+    post:
+      consumes:
+      - application/json
+      description: create a currency
+      parameters:
+      - description: new currency
+        in: body
+        name: currency
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateCurrencyRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.CreateCurrencyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/exception.BadRequestException'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/exception.InternalServerException'
+      summary: Create Currency
+      tags:
+      - Currencies
+  /currency/convert:
+    get:
+      consumes:
+      - application/json
+      description: convert the value of one currency to another
+      parameters:
+      - example: 10.2
+        in: query
+        name: amount
+        type: number
+      - example: usd
+        in: query
+        name: from
+        type: string
+      - example: brl
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.CurrencyConversionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/exception.BadRequestException'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/exception.InternalServerException'
+      summary: Currency Conversion
+      tags:
+      - Currencies
   /user:
     post:
       consumes:
@@ -97,9 +256,11 @@ paths:
         "201":
           description: Created
           schema:
-            items:
-              $ref: '#/definitions/handler.CreateUserResponse'
-            type: array
+            $ref: '#/definitions/handler.CreateUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/exception.BadRequestException'
         "500":
           description: Internal Server Error
           schema:
