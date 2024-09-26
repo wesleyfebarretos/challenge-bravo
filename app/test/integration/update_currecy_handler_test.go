@@ -42,6 +42,9 @@ func TestUpdateCurrencyHandler(t *testing.T) {
 		res := testutils.SendRequestWithToken(t, http.MethodPut, fmt.Sprintf("currency/%d", currency.ID), user, newCurrencyReq)
 
 		body, err := io.ReadAll(res.Body)
+		if err != nil {
+			t.Fatal(err)
+		}
 
 		expectedResponse := false
 

@@ -28,6 +28,9 @@ func TestFindCurrencyByIdHandler(t *testing.T) {
 		res := testutils.SendRequestWithToken(t, http.MethodGet, fmt.Sprintf("currency/%d", currency.ID), user, nil)
 
 		body, err := io.ReadAll(res.Body)
+		if err != nil {
+			t.Fatal(err)
+		}
 
 		expectedResponse := handler.FindCurrencyByIdResponse{}
 

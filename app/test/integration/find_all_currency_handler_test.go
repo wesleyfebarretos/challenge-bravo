@@ -3,47 +3,45 @@ package integration
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/wesleyfebarretos/challenge-bravo/app/internal/infra/repository/currency_repository"
+	"github.com/wesleyfebarretos/challenge-bravo/app/internal/infra/web/handler"
 	"github.com/wesleyfebarretos/challenge-bravo/app/test/testdata"
 	"github.com/wesleyfebarretos/challenge-bravo/app/test/testutils"
 )
 
-func TestDeleteCurrencyHandler(t *testing.T) {
-	t.Run("it should delete a currency", testutils.RunTest(func(t *testing.T) {
-		user, err := testdata.CreateUser()
+func TestFindAllCurrencyHandler(t *testing.T) {
+	t.Run("it should find a currency by id", testutils.RunTest(func(t *testing.T) {
+		currencies, err := currency_repository.New().FindAll(context.TODO())
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		currency, err := testdata.CreateCurrency()
+		oldLen := len(currencies)
+
+		_, err = testdata.CreateCurrency()
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		res := testutils.SendRequestWithToken(t, http.MethodDelete, fmt.Sprintf("currency/%d", currency.ID), user, nil)
+		res := testutils.SendRequest(t, http.MethodGet, "currency", nil)
 
 		body, err := io.ReadAll(res.Body)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		expectedResponse := false
+		expectedResponse := []handler.FindAllCurrencyHandler{}
 
 		if err := json.Unmarshal(body, &expectedResponse); err != nil {
 			t.Fatal(err)
 		}
 
-		expectedCurrency, err := currency_repository.New().FindOneById(context.TODO(), currency.ID)
-
 		assert.Equal(t, http.StatusOK, res.StatusCode)
-		assert.True(t, expectedResponse)
-		assert.NotNil(t, err)
-		assert.Nil(t, expectedCurrency)
+		assert.Equal(t, oldLen+1, len(expectedResponse))
 	}))
 }

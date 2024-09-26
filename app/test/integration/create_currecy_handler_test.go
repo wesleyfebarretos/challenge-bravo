@@ -34,6 +34,9 @@ func TestCreateCurrencyHandler(t *testing.T) {
 		res := testutils.SendRequestWithToken(t, http.MethodPost, "currency", user, newCurrencyReq)
 
 		body, err := io.ReadAll(res.Body)
+		if err != nil {
+			t.Fatal(err)
+		}
 
 		expectedCurrency := handler.CreateCurrencyResponse{}
 
