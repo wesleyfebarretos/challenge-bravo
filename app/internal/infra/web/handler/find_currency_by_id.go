@@ -57,10 +57,10 @@ func (h FindCurrencyByIdResponse) MapToResponse(u entity.Currency) FindCurrencyB
 //	@Param			id	path		int	true	"currency id"
 //	@Success		200	{object}	FindCurrencyByIdResponse
 //	@Failure		500	{object}	exception.InternalServerException
-//	@Failure		401			{object}	exception.UnauthorizedException
+//	@Failure		401	{object}	exception.UnauthorizedException
 //	@Router			/currency/{id} [get]
 //
-// @Security Bearer
+//	@Security		Bearer
 func (h FindCurrencyByIdHandler) Execute(c *gin.Context) {
 	id := getIdFromReq(c)
 

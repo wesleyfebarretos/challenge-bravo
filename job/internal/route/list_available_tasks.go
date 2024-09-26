@@ -8,6 +8,20 @@ import (
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/scheduler"
 )
 
+// ListAvailableTasks godoc
+//
+//	@Summary		List Available Tasks
+//	@Description	List available tasks that you can run immediatelly or put in cron scheuler.
+//	@Tags			Tasks
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	scheduler.AvailableTask
+//	@Failure		500	{object}	exception.InternalServerException
+//	@Failure		400	{object}	exception.BadRequestException
+//	@Failure		401	{object}	exception.UnauthorizedException
+//	@Router			/available-tasks [get]
+//
+//	@Security		Bearer
 func handleListAvailableTasks(router *gin.RouterGroup) {
 	listAvailableTasksRoute := router.Group("")
 

@@ -10,6 +10,21 @@ import (
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/scheduler"
 )
 
+// RemoveTask godoc
+//
+//	@Summary		Remove Task
+//	@Description	remove a task from cron time scheduler.
+//	@Tags			Tasks
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"task ID"
+//	@Success		200	{object}	bool
+//	@Failure		500	{object}	exception.InternalServerException
+//	@Failure		400	{object}	exception.BadRequestException
+//	@Failure		401	{object}	exception.UnauthorizedException
+//	@Router			/tasks/{id} [delete]
+//
+//	@Security		Bearer
 func handleRemoveTask(route *gin.RouterGroup) {
 	removeTaskRoute := route.Group("")
 

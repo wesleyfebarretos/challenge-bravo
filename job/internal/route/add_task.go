@@ -13,6 +13,21 @@ type AddTaskRequest struct {
 	Name string `json:"name"`
 }
 
+// AddTask godoc
+//
+//	@Summary		Add Task
+//	@Description	Add a task to cron scheduler
+//	@Tags			Tasks
+//	@Accept			json
+//	@Produce		json
+//	@Param			task	body		AddTaskRequest	true	"new task"
+//	@Success		200		{object}	bool
+//	@Failure		500		{object}	exception.InternalServerException
+//	@Failure		400		{object}	exception.BadRequestException
+//	@Failure		401		{object}	exception.UnauthorizedException
+//	@Router			/tasks [post]
+//
+//	@Security		Bearer
 func handleAddTask(router *gin.RouterGroup) {
 	addTaskRoute := router.Group("")
 

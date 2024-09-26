@@ -23,6 +23,24 @@ func init() {
 	os.Chdir(dir)
 }
 
+// Swagger entrypoint godoc
+//
+//	@title						Challenge Bravo Jobs
+//
+//	@version					1.0
+//	@description				Currency Conversion Job API.
+//	@termsOfService				http://swagger.io/terms/
+//	@contact.name				Wesley Ferreira
+//	@contact.url				https://www.linkedin.com/in/wesleyfebarretos/
+//	@license.name				Apache 2.0
+//	@license.url				http://www.apache.org/licenses/LICENSE-2.0.html
+//	@host						localhost:8081
+//	@BasePath					/v1
+//
+//	@securityDefinitions.apikey	Bearer
+//	@in							header
+//	@name						Authorization
+//	@description				Type "Bearer" followed by a space and JWT token.
 func main() {
 	if err := godotenv.Load(".env"); err != nil {
 		log.Fatal(err)

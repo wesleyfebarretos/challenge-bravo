@@ -67,9 +67,9 @@ func (h UpdateUserRequest) Valid() error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			newUser	body		UpdateUserRequest	true	"new user data"
-//	@Success		200			{object}	bool
-//	@Failure		500			{object}	exception.InternalServerException
-//	@Failure		401			{object}	exception.UnauthorizedException
+//	@Success		200		{object}	bool
+//	@Failure		500		{object}	exception.InternalServerException
+//	@Failure		401		{object}	exception.UnauthorizedException
 //	@Router			/user/{id} [put]
 //
 //	@Security		Bearer

@@ -10,8 +10,19 @@ import (
 )
 
 type SignInRequest struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Email    string `json:"email" example:"sa.bravo@bravo.com"`
+	Password string `json:"password" example:"123"`
+}
+
+type SignInResponse struct {
+	User  UserResponse
+	Token string `json:"token" example:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhLmJyYXZvQGJyYXZvLmNvbSIsImV4cCI6MTcyNzQ5NzU3NiwiaWQiOjEsInJvbGUiOiJhZG1pbiJ9.kqjAxXJq3P814TAc_kCMYCDeAZarg1AvNqXNOdXmNPA"`
+}
+
+type UserResponse struct {
+	ID    int    `json:"id" example:"1"`
+	Email string `json:"email" example:"sa.bravo@bravo.com"`
+	Role  string `json:"role" example:"admin"`
 }
 
 type User struct {
@@ -21,6 +32,18 @@ type User struct {
 	Password string
 }
 
+// SignIn godoc
+//
+//	@Summary		Sign in
+//	@Description	You need this admin login to access the endpoints
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			signInParams	body		SignInRequest	true	"data"
+//	@Success		200				{object}	SignInResponse
+//	@Failure		500				{object}	exception.InternalServerException
+//	@Failure		400				{object}	exception.BadRequestException
+//	@Router			/auth [post]
 func handleSignIn(router *gin.RouterGroup) {
 	router.POST("auth", func(c *gin.Context) {
 		body := SignInRequest{}
