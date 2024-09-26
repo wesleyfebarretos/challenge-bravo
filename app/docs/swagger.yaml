@@ -201,6 +201,90 @@ definitions:
         example: 1
         type: number
     type: object
+  handler.FindCurrencyByCodeResponse:
+    properties:
+      code:
+        example: USD
+        type: string
+      country:
+        example: United States
+        type: string
+      country_code:
+        example: USA
+        type: string
+      created_at:
+        example: 2024-09-05 02:28:41.425 -0300
+        type: string
+      created_by:
+        example: 1
+        type: integer
+      fic:
+        example: false
+        type: boolean
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Dollar
+        type: string
+      number:
+        example: 840
+        type: integer
+      search_url:
+        example: http://usd-exchange.com
+        type: string
+      updated_at:
+        example: 2024-09-05 02:28:41.425 -0300
+        type: string
+      updated_by:
+        example: 1
+        type: integer
+      usd_exchange_rate:
+        example: 1
+        type: number
+    type: object
+  handler.FindCurrencyByIdResponse:
+    properties:
+      code:
+        example: USD
+        type: string
+      country:
+        example: United States
+        type: string
+      country_code:
+        example: USA
+        type: string
+      created_at:
+        example: 2024-09-05 02:28:41.425 -0300
+        type: string
+      created_by:
+        example: 1
+        type: integer
+      fic:
+        example: false
+        type: boolean
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Dollar
+        type: string
+      number:
+        example: 840
+        type: integer
+      search_url:
+        example: http://usd-exchange.com
+        type: string
+      updated_at:
+        example: 2024-09-05 02:28:41.425 -0300
+        type: string
+      updated_by:
+        example: 1
+        type: integer
+      usd_exchange_rate:
+        example: 1
+        type: number
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -225,7 +309,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handler.FindAllCurrencyResponse'
+            items:
+              $ref: '#/definitions/handler.FindAllCurrencyResponse'
+            type: array
         "500":
           description: Internal Server Error
           schema:
@@ -285,6 +371,55 @@ paths:
           schema:
             $ref: '#/definitions/exception.InternalServerException'
       summary: Delete Currency
+      tags:
+      - Currencies
+    get:
+      consumes:
+      - application/json
+      description: find currency by id
+      parameters:
+      - description: currency id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.FindCurrencyByIdResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/exception.InternalServerException'
+      summary: Find Currency By ID
+      tags:
+      - Currencies
+  /currency/code/{code}:
+    get:
+      consumes:
+      - application/json
+      description: find currency by code
+      parameters:
+      - description: currency code
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.FindCurrencyByCodeResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/exception.InternalServerException'
+      summary: Find Currency By Code
       tags:
       - Currencies
   /currency/convert:

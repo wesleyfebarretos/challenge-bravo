@@ -47,6 +47,17 @@ func (h FindCurrencyByCodeResponse) MapToResponse(u entity.Currency) FindCurrenc
 	}
 }
 
+// FindCurrencyByCode godoc
+//
+//	@Summary		Find Currency By Code
+//	@Description	find currency by code
+//	@Tags			Currencies
+//	@Accept			json
+//	@Produce		json
+//	@Param			code	path		string	true	"currency code"
+//	@Success		200		{object}	FindCurrencyByCodeResponse
+//	@Failure		500		{object}	exception.InternalServerException
+//	@Router			/currency/code/{code} [get]
 func (h FindCurrencyByCodeHandler) Execute(c *gin.Context) {
 	code := getParamAsString(c, "code")
 

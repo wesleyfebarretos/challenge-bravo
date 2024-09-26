@@ -60,7 +60,7 @@ func (h FindAllCurrencyResponse) MapToResponse(u []entity.Currency) []FindAllCur
 //	@Tags			Currencies
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{object}	FindAllCurrencyResponse
+//	@Success		200	{array}		FindAllCurrencyResponse
 //	@Failure		500	{object}	exception.InternalServerException
 //	@Router			/currency [get]
 func (h FindAllCurrencyHandler) Execute(c *gin.Context) {
