@@ -84,6 +84,17 @@ func (h CreateUserResponse) MapToResponse(u entity.User) CreateUserResponse {
 	}
 }
 
+// CreateUser godoc
+//
+//	@Summary		Create User
+//	@Description	create an user
+//	@Tags			Users
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body		CreateUserRequest	true	"new user"
+//	@Success		201		{array}		CreateUserResponse
+//	@Failure		500		{object}	exception.InternalServerException
+//	@Router			/user [post]
 func (h CreateUserHandler) Execute(c *gin.Context) {
 	body := CreateUserRequest{}
 

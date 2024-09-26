@@ -41,3 +41,11 @@ migrations-down:
 
 app-integration-test:
 	@go test ./app/test/integration/...
+
+#  Swagger
+generate-app-swagger-docs:
+	@rm -rf ./app/docs
+	@swag init -g ./app/cmd/app/main.go -o ./app/docs
+
+format-swagger-configs:
+	@swag fmt

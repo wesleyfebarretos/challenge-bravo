@@ -1,0 +1,116 @@
+basePath: /v1
+definitions:
+  enum.Role:
+    enum:
+    - user
+    - admin
+    type: string
+    x-enum-varnames:
+    - USER
+    - ADMIN
+  exception.InternalServerException:
+    properties:
+      code:
+        example: 500
+        type: integer
+      message:
+        example: bad request
+        type: string
+    type: object
+  handler.CreateUserRequest:
+    properties:
+      active:
+        example: true
+        type: boolean
+      email:
+        example: johndoe@gmail.com
+        type: string
+      first_name:
+        example: John
+        type: string
+      last_name:
+        example: Doe
+        type: string
+      password:
+        example: 12$a@3$@00!
+        type: string
+    type: object
+  handler.CreateUserResponse:
+    properties:
+      active:
+        example: true
+        type: boolean
+      created_at:
+        example: "2024-08-31T14:21:38-03:00"
+        type: string
+      email:
+        example: johndoe@gmail.com
+        type: string
+      first_name:
+        example: John
+        type: string
+      id:
+        example: 1
+        type: integer
+      last_name:
+        example: Doe
+        type: string
+      password:
+        example: AasEsF!@#$%!2
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/enum.Role'
+        example: user
+      updated_at:
+        example: "2024-08-31T14:21:38-03:00"
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: Wesley Ferreira
+    url: https://www.linkedin.com/in/wesleyfebarretos/
+  description: Currency conversion API.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Challenge Bravo
+  version: "1.0"
+paths:
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: create an user
+      parameters:
+      - description: new user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/handler.CreateUserResponse'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/exception.InternalServerException'
+      summary: Create User
+      tags:
+      - Users
+securityDefinitions:
+  Bearer:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
