@@ -31,7 +31,6 @@ func RunMigrations(ctx context.Context) error {
 	}
 
 	if err = migrations.Up(); err != nil && !errors.Is(err, migrate.ErrNoChange) {
-
 		return err
 	}
 
