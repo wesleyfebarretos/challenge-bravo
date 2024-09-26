@@ -11,6 +11,17 @@ type DeleteCurrencyHandler struct {
 	useCase usecase.DeleteCurrencyUseCase
 }
 
+// DeleteCurrency godoc
+//
+//	@Summary		Delete Currency
+//	@Description	delete a currency
+//	@Tags			Currencies
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"currency id"
+//	@Success		200	{object}	bool
+//	@Failure		500	{object}	exception.InternalServerException
+//	@Router			/currency/{id} [delete]
 func (h DeleteCurrencyHandler) Execute(c *gin.Context) {
 	id := getIdFromReq(c)
 

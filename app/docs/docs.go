@@ -124,6 +124,44 @@ const docTemplate = `{
                 }
             }
         },
+        "/currency/{id}": {
+            "delete": {
+                "description": "delete a currency",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Delete Currency",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "currency id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/exception.InternalServerException"
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "post": {
                 "description": "create an user",

@@ -202,6 +202,31 @@ paths:
       summary: Create Currency
       tags:
       - Currencies
+  /currency/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete a currency
+      parameters:
+      - description: currency id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: boolean
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/exception.InternalServerException'
+      summary: Delete Currency
+      tags:
+      - Currencies
   /currency/convert:
     get:
       consumes:
