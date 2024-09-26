@@ -4,7 +4,7 @@ import "net/http"
 
 type UnauthorizedException struct {
 	Code    int    `json:"code" example:"401"`
-	Message string `json:"message" example:"bad request"`
+	Message string `json:"message" example:"access not authorized"`
 }
 
 func (e *UnauthorizedException) Error() string {

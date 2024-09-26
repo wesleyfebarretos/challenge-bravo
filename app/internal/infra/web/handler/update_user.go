@@ -59,6 +59,20 @@ func (h UpdateUserRequest) Valid() error {
 	return nil
 }
 
+// UpdateUser godoc
+//
+//	@Summary		Update User
+//	@Description	update user informing the id
+//	@Tags			Users
+//	@Accept			json
+//	@Produce		json
+//	@Param			newUser	body		UpdateUserRequest	true	"new user data"
+//	@Success		200			{object}	bool
+//	@Failure		500			{object}	exception.InternalServerException
+//	@Failure		401			{object}	exception.UnauthorizedException
+//	@Router			/user/{id} [put]
+//
+//	@Security		Bearer
 func (h UpdateUserHandler) Execute(c *gin.Context) {
 	body := UpdateUserRequest{}
 

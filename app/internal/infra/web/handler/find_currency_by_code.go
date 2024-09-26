@@ -57,7 +57,10 @@ func (h FindCurrencyByCodeResponse) MapToResponse(u entity.Currency) FindCurrenc
 //	@Param			code	path		string	true	"currency code"
 //	@Success		200		{object}	FindCurrencyByCodeResponse
 //	@Failure		500		{object}	exception.InternalServerException
+//	@Failure		401			{object}	exception.UnauthorizedException
 //	@Router			/currency/code/{code} [get]
+//
+//	@Security		Bearer
 func (h FindCurrencyByCodeHandler) Execute(c *gin.Context) {
 	code := getParamAsString(c, "code")
 

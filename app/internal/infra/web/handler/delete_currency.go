@@ -21,7 +21,10 @@ type DeleteCurrencyHandler struct {
 //	@Param			id	path		int	true	"currency id"
 //	@Success		200	{object}	bool
 //	@Failure		500	{object}	exception.InternalServerException
+//	@Failure		401			{object}	exception.UnauthorizedException
 //	@Router			/currency/{id} [delete]
+//
+//	@Security		Bearer
 func (h DeleteCurrencyHandler) Execute(c *gin.Context) {
 	id := getIdFromReq(c)
 

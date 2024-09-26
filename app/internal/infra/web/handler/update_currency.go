@@ -60,6 +60,20 @@ func (h UpdateCurrencyRequest) Valid() error {
 	return nil
 }
 
+// UpdateCurrency godoc
+//
+//	@Summary		Update Currency
+//	@Description	update currency informing the id
+//	@Tags			Currencies
+//	@Accept			json
+//	@Produce		json
+//	@Param			newCurrency	body		UpdateCurrencyRequest	true	"new currency data"
+//	@Success		200			{object}	bool
+//	@Failure		500			{object}	exception.InternalServerException
+//	@Failure		401			{object}	exception.UnauthorizedException
+//	@Router			/currency/{id} [put]
+//
+//	@Security		Bearer
 func (h UpdateCurrencyHandler) Execute(c *gin.Context) {
 	body := UpdateCurrencyRequest{}
 

@@ -23,6 +23,52 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth": {
+            "post": {
+                "description": "authorization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Sign In",
+                "parameters": [
+                    {
+                        "description": "sign in data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.SignInRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.SignInResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/exception.BadRequestException"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/exception.InternalServerException"
+                        }
+                    }
+                }
+            }
+        },
         "/currency": {
             "get": {
                 "description": "find all currencies",
@@ -55,6 +101,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "create a currency",
                 "consumes": [
                     "application/json"
@@ -90,6 +141,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/exception.BadRequestException"
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/exception.UnauthorizedException"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -101,6 +158,11 @@ const docTemplate = `{
         },
         "/currency/code/{code}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "find currency by code",
                 "consumes": [
                     "application/json"
@@ -126,6 +188,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/handler.FindCurrencyByCodeResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/exception.UnauthorizedException"
                         }
                     },
                     "500": {
@@ -194,6 +262,11 @@ const docTemplate = `{
         },
         "/currency/{id}": {
             "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "find currency by id",
                 "consumes": [
                     "application/json"
@@ -221,6 +294,61 @@ const docTemplate = `{
                             "$ref": "#/definitions/handler.FindCurrencyByIdResponse"
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/exception.UnauthorizedException"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/exception.InternalServerException"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "update currency informing the id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Update Currency",
+                "parameters": [
+                    {
+                        "description": "new currency data",
+                        "name": "newCurrency",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.UpdateCurrencyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/exception.UnauthorizedException"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -230,6 +358,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "description": "delete a currency",
                 "consumes": [
                     "application/json"
@@ -255,6 +388,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "type": "boolean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/exception.UnauthorizedException"
                         }
                     },
                     "500": {
@@ -311,6 +450,57 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "update user informing the id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update User",
+                "parameters": [
+                    {
+                        "description": "new user data",
+                        "name": "newUser",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.UpdateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/exception.UnauthorizedException"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/exception.InternalServerException"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -348,6 +538,19 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "internal server error"
+                }
+            }
+        },
+        "exception.UnauthorizedException": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 401
+                },
+                "message": {
+                    "type": "string",
+                    "example": "access not authorized"
                 }
             }
         },
@@ -704,6 +907,137 @@ const docTemplate = `{
                 "usd_exchange_rate": {
                     "type": "number",
                     "example": 1
+                }
+            }
+        },
+        "handler.SignInRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@gmail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "12$a@3$@00!"
+                }
+            }
+        },
+        "handler.SignInResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwiZXhwIjoxNzI3NDkzMTg4LCJpZCI6NSwicm9sZSI6InVzZXIifQ.jpvz7KPxB7dOMSREn1tc8nfJyYgSWVq3GuF71fnBsos"
+                },
+                "user": {
+                    "$ref": "#/definitions/handler.SignInUserResponse"
+                }
+            }
+        },
+        "handler.SignInUserResponse": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2024-09-26T02:50:34.749998Z"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@gmail.com"
+                },
+                "first_name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "role": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/enum.Role"
+                        }
+                    ],
+                    "example": "user"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2024-09-26T02:50:34.749998Z"
+                }
+            }
+        },
+        "handler.UpdateCurrencyRequest": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "USD"
+                },
+                "country": {
+                    "type": "string",
+                    "example": "United States"
+                },
+                "country_code": {
+                    "type": "string",
+                    "example": "USA"
+                },
+                "fic": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Dollar"
+                },
+                "number": {
+                    "type": "integer",
+                    "example": 840
+                },
+                "search_url": {
+                    "type": "string",
+                    "example": "http://usd-exchange.com"
+                },
+                "usd_exchange_rate": {
+                    "type": "number",
+                    "example": 1
+                }
+            }
+        },
+        "handler.UpdateUserRequest": {
+            "type": "object",
+            "properties": {
+                "active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@gmail.com"
+                },
+                "first_name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "12$a@3$@00!"
                 }
             }
         }

@@ -110,7 +110,10 @@ func (h CreateCurrencyResponse) MapToResponse(u entity.Currency) CreateCurrencyR
 //	@Success		201			{object}	CreateCurrencyResponse
 //	@Failure		500			{object}	exception.InternalServerException
 //	@Failure		400			{object}	exception.BadRequestException
+//	@Failure		401			{object}	exception.UnauthorizedException
 //	@Router			/currency [post]
+//
+//	@Security		Bearer
 func (h CreateCurrencyHandler) Execute(c *gin.Context) {
 	body := CreateCurrencyRequest{}
 
