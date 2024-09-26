@@ -30,13 +30,19 @@ After running the application, we have a swagger available at the addresses belo
 
 ## Running
 ```bash
-$ git clone https://github.com/wesleyfebarretos/challenge-bravo.git
-$ cd challenge-bravo && make start-services
+ git clone https://github.com/wesleyfebarretos/challenge-bravo.git
+ cd challenge-bravo && make start-services
 ```
 
 ## Testing
 In the project **cwd** execute the command below:
 
 ```bash
-$ make app-integration-test
+ make app-integration-test
+```
+
+If you want test logs in verbose mode to see test-containers setup and logs execute this one: 
+
+```bash
+ make app-integration-test-verbose
 ```

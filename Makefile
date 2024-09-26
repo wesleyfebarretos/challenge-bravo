@@ -38,9 +38,11 @@ migrations-down:
 	@migrate -path ./app/internal/migration -database $(DATABASE) -verbose down -all
 
 # Tests
-
 app-integration-test:
 	@go test ./app/test/integration/...
+
+app-integration-test-verbose:
+	@go test ./app/test/integration/... -v
 
 #  Swagger
 generate-app-swagger-docs:
