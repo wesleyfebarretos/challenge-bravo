@@ -6,7 +6,7 @@ start-services:
 	@docker compose up -d
 
 restart-services:
-	@docker compose down --volumes
+	@docker compose down -d
 	@docker compose up -d
 
 restart-db:

@@ -8,6 +8,7 @@ import (
 	"runtime"
 
 	"github.com/joho/godotenv"
+	_ "github.com/wesleyfebarretos/challenge-bravo/job/docs"
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/config"
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/infra/db"
 	"github.com/wesleyfebarretos/challenge-bravo/job/internal/route"
