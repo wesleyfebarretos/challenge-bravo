@@ -57,9 +57,12 @@ func (c CurrencyConversionResponse) MapToResponse(p usecase.CurrencyConversionDT
 func (h CurrencyConversionHandler) Execute(c *gin.Context) {
 	queryParams := CurrencyConversionRequest{}
 
-	c.ShouldBindQuery(&queryParams)
+	err := c.ShouldBindQuery(&queryParams)
+	if err != nil {
+		panic(exception.BadRequest(err.Error()))
+	}
 
-	err := queryParams.Valid()
+	err = queryParams.Valid()
 	if err != nil {
 		panic(exception.BadRequest(err.Error()))
 	}
@@ -68,7 +71,7 @@ func (h CurrencyConversionHandler) Execute(c *gin.Context) {
 
 	res := CurrencyConversionResponse{}
 
-	c.JSON(http.StatusCreated, res.MapToResponse(conversion))
+	c.JSON(http.StatusOK, res.MapToResponse(conversion))
 }
 
 func NewCurrencyConversionHandler(useCase usecase.CurrencyConversionUseCase) CurrencyConversionHandler {
